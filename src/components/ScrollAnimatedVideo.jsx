@@ -269,10 +269,12 @@ export default function ScrollAnimatedVideo({
           ref={headlineRef}
           style={{
             height: "100vh",
+            width: "100%",
             background: "#000",
-            display: "grid",
-            placeItems: "center",
-            padding: "clamp(16px, 3vw, 40px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 0,
             perspective: "900px",
             position: "relative", // needed for badge positioning
           }}
@@ -288,7 +290,7 @@ export default function ScrollAnimatedVideo({
 
           <div
             className="hsv-headline"
-            style={{ transformStyle: "preserve-3d", width: "100%", maxWidth: 1100 }}
+            style={{ transformStyle: "preserve-3d", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
           >
             {heroContent ?? null}
           </div>

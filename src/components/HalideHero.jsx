@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Crosshair } from 'lucide-react';
 
-const Hero = () => {
+const HalideHero = () => {
   const canvasRef = useRef(null);
   const layersRef = useRef([]);
 
@@ -49,11 +50,13 @@ const Hero = () => {
       <style>{`
         :root {
           --silver: #e0e0e0;
+          --accent: #ff3c00;
           --grain-opacity: 0.15;
         }
 
         .halide-body {
           color: var(--silver);
+          font-family: 'Syncopate', sans-serif;
           overflow: hidden;
           height: 100vh;
           width: 100vw;
@@ -61,14 +64,14 @@ const Hero = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          position: absolute; /* Using absolute so it scales well within ScrollAnimatedVideo */
-          top: 0; left: 0;
-          pointer-events: none; /* Let clicks pass if needed */
+          position: absolute;
+          inset: 0;
+          background-color: transparent;
         }
 
         .halide-grain {
-          position: fixed; /* Fixed to cover screen */
-          inset: 0;
+          position: absolute;
+          top: 0; left: 0; width: 100%; height: 100%;
           pointer-events: none;
           z-index: 100;
           opacity: var(--grain-opacity);
@@ -76,14 +79,16 @@ const Hero = () => {
 
         .viewport {
           perspective: 2000px;
-          width: 100%; height: 100%;
+          width: 100vw; height: 100vh;
           display: flex; align-items: center; justify-content: center;
           overflow: hidden;
+          position: absolute;
+          inset: 0;
         }
 
         .canvas-3d {
           position: relative;
-          width: 80vw; height: 50vh;
+          width: 80vw; height: 60vh;
           max-width: 800px; max-height: 500px;
           transform-style: preserve-3d;
           transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -96,6 +101,7 @@ const Hero = () => {
           background-size: cover;
           background-position: center;
           transition: transform 0.5s ease;
+          border-radius: 1rem;
         }
 
         .layer-1 { background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200'); filter: grayscale(1) contrast(1.2) brightness(0.5); }
@@ -114,7 +120,7 @@ const Hero = () => {
         .interface-grid {
           position: absolute;
           inset: 0;
-          padding: clamp(2rem, 5vw, 4rem);
+          padding: 4rem;
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-template-rows: auto 1fr auto;
@@ -129,24 +135,22 @@ const Hero = () => {
           line-height: 0.85;
           letter-spacing: -0.04em;
           mix-blend-mode: difference;
-          font-family: var(--font-primary);
-          text-align: center;
           color: white;
+          font-weight: 800;
         }
 
         .cta-button {
           pointer-events: auto;
           background: var(--silver);
-          color: #000;
+          color: black;
           padding: 1rem 2rem;
           text-decoration: none;
           font-weight: 700;
           clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 100%, 0 100%);
           transition: 0.3s;
-          font-family: var(--font-primary);
         }
 
-        .cta-button:hover { background: var(--color-cta); transform: translateY(-5px); color: white; }
+        .cta-button:hover { background: var(--accent); transform: translateY(-5px); }
 
         .scroll-hint {
           position: absolute;
@@ -164,6 +168,7 @@ const Hero = () => {
       `}</style>
 
       <div className="halide-body">
+        {/* SVG Filter for Grain */}
         <svg style={{ position: 'absolute', width: 0, height: 0 }}>
           <filter id="grain">
             <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" />
@@ -172,25 +177,7 @@ const Hero = () => {
         </svg>
 
         <div className="halide-grain" style={{ filter: 'url(#grain)' }}></div>
-
-        <div className="interface-grid">
-          <div style={{ fontWeight: 700, fontFamily: 'var(--font-primary)' }}>KHUSHI_FILMS</div>
-          <div style={{ textAlign: 'right', fontFamily: 'var(--font-secondary)', color: 'var(--color-cta)', fontSize: '0.7rem' }}>
-            <div>PRODUCTION: ON</div>
-            <div>STATUS: ACTIVE</div>
-          </div>
-
-          <h1 className="hero-title">KHUSHI<br />FILMS</h1>
-
-          <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <div style={{ fontFamily: 'var(--font-secondary)', fontSize: '0.75rem' }}>
-              <p>[ CINEMA 2026 ]</p>
-              <p>SURFACE TENSION & TOPOGRAPHICAL LIGHT</p>
-            </div>
-            <a href="#" className="cta-button">EXPLORE DEPTH</a>
-          </div>
-        </div>
-
+        
         <div className="viewport">
           <div className="canvas-3d" ref={canvasRef}>
             <div className="layer layer-1" ref={(el) => (layersRef.current[0] = el)}></div>
@@ -200,10 +187,33 @@ const Hero = () => {
           </div>
         </div>
 
+        <div className="interface-grid">
+          <div style={{ fontWeight: 700, fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Crosshair size={16} color="var(--accent)" />
+            HALIDE_CORE
+          </div>
+          <div style={{ textAlign: 'right', fontFamily: 'monospace', color: 'var(--accent)', fontSize: '0.7rem' }}>
+            <div>LATITUDE: 34.0522° N</div>
+            <div>FOCAL DEPTH: 80MM</div>
+          </div>
+
+          <h1 className="hero-title">SILVER<br />SULPHIDE</h1>
+
+          <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%' }}>
+            <div style={{ fontFamily: 'monospace', fontSize: '0.75rem', maxWidth: '50%' }}>
+              <p>[ ARCHIVE 2024 ]</p>
+              <p>SURFACE TENSION & TOPOGRAPHICAL LIGHT</p>
+            </div>
+            <div style={{ pointerEvents: 'auto' }}>
+                <a href="#" className="cta-button">EXPLORE DEPTH</a>
+            </div>
+          </div>
+        </div>
+
         <div className="scroll-hint"></div>
       </div>
     </>
   );
 };
 
-export default Hero;
+export default HalideHero;

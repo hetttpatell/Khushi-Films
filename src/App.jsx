@@ -1,29 +1,32 @@
+import { useRef } from 'react';
 import ScrollAnimatedVideo from './components/ScrollAnimatedVideo';
-import Hero from './components/Hero';
+import HalideHero from './components/HalideHero';
 import './App.css';
 
 function App() {
+  const container = useRef();
+
+  const heroJSX = (
+    <div className="flex flex-col items-center justify-center h-full w-full relative">
+      <HalideHero />
+    </div>
+  );
+
   const overlayJSX = (
-    <div className="flex flex-col items-center text-center glass-panel p-8 md:p-14 rounded-3xl max-w-4xl mx-auto">
-      <h2 className="text-4xl md:text-6xl font-semibold mb-6 text-gradient uppercase tracking-tight">
-        Every Frame Has a Pulse
+    <div className="flex flex-col items-center justify-center p-8 w-full max-w-4xl mx-auto h-full">
+      <h2 className="text-4xl md:text-6xl font-semibold text-white uppercase tracking-tight">
+        Screen 3
       </h2>
-      <p className="text-lg md:text-xl text-zinc-300 font-light max-w-2xl mb-10 leading-relaxed">
-        We bridge the gap between imagination and reality. Specializing in high-end commercial production and intimate narratives, we turn moments into timeless cinema.
-      </p>
-      <button className="btn-primary">
-        Explore Our Work
-      </button>
     </div>
   );
 
   return (
-    <main className="bg-black min-h-screen text-white antialiased">
-      <ScrollAnimatedVideo 
-        videoSrc="https://www.w3schools.com/html/mov_bbb.mp4" 
-        heroContent={<Hero />}
+    <main ref={container} className="bg-black min-h-screen text-white antialiased">
+      <ScrollAnimatedVideo
+        videoSrc="https://www.w3schools.com/html/mov_bbb.mp4"
+        heroContent={heroJSX}
         overlayContent={overlayJSX}
-        showBadges={false}
+        showBadges={true}
       />
     </main>
   );
