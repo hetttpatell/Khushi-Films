@@ -1,0 +1,386 @@
+import { useEffect, useRef } from "react";
+
+/**
+ * ScrollAnimatedVideo
+ *
+ * USAGE:
+ *   <ScrollAnimatedVideo videoSrc="/your-video.mp4" />
+ *
+ * PROPS:
+ *   videoSrc        — path/URL to your video (required)
+ *   poster          — optional poster image URL
+ *   initialBoxSize  — starting box size in px (default 320)
+ *   scrollHeightVh  — total scroll distance in vh (default 280)
+ *   heroContent     — JSX shown on Screen 1 (black hero screen)
+ *   overlayContent  — JSX shown on Screen 3 (black overlay screen)
+ *   showBadges      — show dev badges on Screen 1 & 3 (default true, set false in prod)
+ */
+export default function ScrollAnimatedVideo({
+  videoSrc = "https://www.w3schools.com/html/mov_bbb.mp4",
+  poster,
+  initialBoxSize = 320,
+  scrollHeightVh = 280,
+  heroContent,
+  overlayContent,
+  showBadges = true,
+}) {
+  const rootRef = useRef(null);
+  const containerRef = useRef(null);
+  const headlineRef = useRef(null);
+  const overlayRef = useRef(null);
+  const overlayConRef = useRef(null);
+
+  useEffect(() => {
+    let gsap, ScrollTrigger, CustomEase;
+    let heroTl, mainTl;
+    let darkenEl = null;
+    let lenis, rafCb;
+    let cancelled = false;
+
+    (async () => {
+      const gsapPkg = await import("gsap");
+      gsap = gsapPkg.gsap || gsapPkg.default || gsapPkg;
+
+      const stPkg = await import("gsap/ScrollTrigger").catch(() =>
+        import("gsap/dist/ScrollTrigger")
+      );
+      ScrollTrigger = stPkg.ScrollTrigger || stPkg.default || stPkg;
+
+      const cePkg = await import("gsap/CustomEase").catch(() =>
+        import("gsap/dist/CustomEase")
+      );
+      CustomEase = cePkg.CustomEase || cePkg.default || cePkg;
+
+      gsap.registerPlugin(ScrollTrigger, CustomEase);
+      if (cancelled) return;
+
+      const lenisPkg = await import("lenis").catch(() => null);
+      const LenisCtor = lenisPkg?.default || lenisPkg?.Lenis;
+      if (LenisCtor) {
+        lenis = new LenisCtor({ duration: 0.8, smoothWheel: true });
+        rafCb = (t) => lenis.raf(t * 1000);
+        gsap.ticker.add(rafCb);
+        gsap.ticker.lagSmoothing(0);
+        lenis.on("scroll", ScrollTrigger.update);
+      }
+
+      const container = containerRef.current;
+      const overlayEl = overlayRef.current;
+      const overlayConEl = overlayConRef.current;
+      const headline = headlineRef.current;
+
+      if (container) {
+        darkenEl = document.createElement("div");
+        Object.assign(darkenEl.style, {
+          position: "absolute", inset: "0",
+          background: "rgba(0,0,0,0)",
+          pointerEvents: "none", zIndex: "1",
+        });
+        container.appendChild(darkenEl);
+      }
+
+      if (headline) {
+        heroTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: headline,
+            start: "top top",
+            end: "top+=420 top",
+            scrub: 1.2,
+          },
+        });
+        headline.querySelectorAll(".hsv-headline > *").forEach((el, i) => {
+          heroTl.to(el, {
+            rotationX: 80, y: -36, scale: 0.86,
+            opacity: 0, filter: "blur(4px)",
+            transformOrigin: "center top",
+            ease: "power3.inOut",
+          }, i * 0.08);
+        });
+      }
+
+      const triggerEl = rootRef.current?.querySelector("[data-sticky-scroll]");
+      if (!triggerEl || !container || !overlayEl) return;
+
+      mainTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: triggerEl,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1.2,
+        },
+      });
+
+      gsap.set(container, {
+        width: initialBoxSize, height: initialBoxSize,
+        borderRadius: 20,
+      });
+      gsap.set(overlayEl, { clipPath: "inset(100% 0 0 0)" });
+      if (overlayConEl) gsap.set(overlayConEl, { y: 30, scale: 1.04 });
+
+      mainTl
+        .to(container, {
+          width: "96vw", height: "94vh",
+          borderRadius: 0,
+          ease: "expo.out",
+        }, 0)
+        .to(darkenEl, {
+          backgroundColor: "rgba(0,0,0,0.55)",
+          ease: "power2.out",
+        }, 0)
+        .to(overlayEl, {
+          clipPath: "inset(0% 0 0 0)",
+          ease: "expo.out",
+        }, 0.38)
+        .to(overlayConEl || {}, {
+          y: 0, scale: 1,
+          ease: "expo.out",
+        }, 0.44);
+
+      const videoEl = container.querySelector("video");
+      if (videoEl) {
+        const tryPlay = () => videoEl.play().catch(() => { });
+        tryPlay();
+        ScrollTrigger.create({
+          trigger: triggerEl, start: "top top",
+          onEnter: tryPlay,
+        });
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      try { heroTl?.kill(); mainTl?.kill(); } catch { }
+      try {
+        ScrollTrigger?.getAll?.().forEach((t) =>
+          rootRef.current?.contains(t.trigger) && t.kill(true)
+        );
+      } catch { }
+      try { darkenEl?.parentElement?.removeChild(darkenEl); } catch { }
+      try {
+        if (rafCb && gsap?.ticker) {
+          gsap.ticker.remove(rafCb);
+          gsap.ticker.lagSmoothing(1000, 16);
+        }
+        lenis?.off?.("scroll", ScrollTrigger?.update);
+        lenis?.destroy?.();
+      } catch { }
+    };
+  }, [initialBoxSize, scrollHeightVh]);
+
+  /* ── Reusable badge component ── */
+  const ScreenBadge = ({ number, description, align = "top-left" }) => {
+    const positions = {
+      "top-left": { top: 20, left: 20 },
+      "top-right": { top: 20, right: 20 },
+    };
+    return (
+      <div
+        style={{
+          position: "absolute",
+          ...positions[align],
+          zIndex: 100,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: 6,
+          pointerEvents: "none",
+          userSelect: "none",
+        }}
+      >
+        {/* Main badge pill */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            background: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(255,255,255,0.15)",
+            borderRadius: 999,
+            padding: "5px 12px 5px 6px",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+          }}
+        >
+          {/* Circle with number */}
+          <div
+            style={{
+              width: 22,
+              height: 22,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.9)",
+              color: "#000",
+              fontSize: 11,
+              fontWeight: 700,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "ui-monospace, monospace",
+              flexShrink: 0,
+            }}
+          >
+            {number}
+          </div>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: "rgba(255,255,255,0.85)",
+              fontFamily: "ui-monospace, monospace",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Screen {number}
+          </span>
+        </div>
+
+        {/* Description tag */}
+        <div
+          style={{
+            marginLeft: 4,
+            background: "rgba(255,255,255,0.05)",
+            border: "1px dashed rgba(255,255,255,0.12)",
+            borderRadius: 6,
+            padding: "3px 8px",
+            fontSize: 10,
+            color: "rgba(255,255,255,0.4)",
+            fontFamily: "ui-monospace, monospace",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {description}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <div ref={rootRef} style={{ background: "#000", overflowX: "clip" }}>
+
+        {/* ══════════════════════════════════════
+            SCREEN 1 — BLACK HERO
+            Pass your JSX via heroContent prop
+            e.g. heroContent={<MyHero />}
+            Remove showBadges prop in production
+        ══════════════════════════════════════ */}
+        <div
+          ref={headlineRef}
+          style={{
+            height: "100vh",
+            background: "#000",
+            display: "grid",
+            placeItems: "center",
+            padding: "clamp(16px, 3vw, 40px)",
+            perspective: "900px",
+            position: "relative", // needed for badge positioning
+          }}
+        >
+          {/* Dev badge — remove showBadges prop (or set false) in production */}
+          {showBadges && (
+            <ScreenBadge
+              number={1}
+              description="heroContent prop → your content here"
+              align="top-left"
+            />
+          )}
+
+          <div
+            className="hsv-headline"
+            style={{ transformStyle: "preserve-3d", width: "100%", maxWidth: 1100 }}
+          >
+            {heroContent ?? null}
+          </div>
+        </div>
+
+        {/* ══════════════════════════════════════
+            SCROLL TRIGGER ZONE
+            Video expands as you scroll
+        ══════════════════════════════════════ */}
+        <div
+          data-sticky-scroll
+          style={{ height: `${Math.max(150, scrollHeightVh)}vh`, position: "relative" }}
+        >
+          <div
+            style={{
+              position: "sticky", top: 0,
+              height: "100vh",
+              display: "grid", placeItems: "center",
+              background: "#000",
+            }}
+          >
+            {/* Media box */}
+            <div
+              ref={containerRef}
+              style={{
+                position: "relative",
+                width: initialBoxSize,
+                height: initialBoxSize,
+                borderRadius: 20,
+                overflow: "hidden",
+                background: "#000",
+                boxShadow: "0 12px 48px rgba(0,0,0,0.7)",
+              }}
+            >
+              {/* YOUR VIDEO — swap videoSrc prop for your own file */}
+              <video
+                poster={poster}
+                muted
+                loop
+                playsInline
+                autoPlay
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              >
+                <source src={videoSrc} type="video/mp4" />
+              </video>
+
+              {/* ══════════════════════════════════════
+                  SCREEN 3 — BLACK OVERLAY
+                  Pass your JSX via overlayContent prop
+                  e.g. overlayContent={<MySection />}
+                  Remove showBadges prop in production
+              ══════════════════════════════════════ */}
+              <div
+                ref={overlayRef}
+                style={{
+                  position: "absolute", inset: 0,
+                  background: "#000",
+                  zIndex: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  clipPath: "inset(100% 0 0 0)",
+                  padding: "clamp(16px, 4vw, 48px)",
+                }}
+              >
+                {/* Dev badge — remove showBadges prop (or set false) in production */}
+                {showBadges && (
+                  <ScreenBadge
+                    number={3}
+                    description="overlayContent prop → your content here"
+                    align="top-left"
+                  />
+                )}
+
+                <div ref={overlayConRef} style={{ width: "100%", maxWidth: 720 }}>
+                  {overlayContent ?? null}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <style>{`
+        .hsv-headline > * {
+          transform-style: preserve-3d;
+          backface-visibility: hidden;
+          transform-origin: center top;
+        }
+      `}</style>
+    </>
+  );
+}
