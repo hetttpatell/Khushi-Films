@@ -121,22 +121,21 @@ const HalideHero = () => {
           position: absolute;
           inset: 0;
           padding: 4rem;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: auto 1fr auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           z-index: 10;
           pointer-events: none;
         }
 
         .hero-title {
-          grid-column: 1 / -1;
-          align-self: center;
           font-size: clamp(3rem, 10vw, 10rem);
           line-height: 0.85;
           letter-spacing: -0.04em;
           mix-blend-mode: difference;
           color: white;
           font-weight: 800;
+          text-align: center;
         }
 
         .cta-button {
@@ -188,26 +187,7 @@ const HalideHero = () => {
         </div>
 
         <div className="interface-grid">
-          <div style={{ fontWeight: 700, fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Crosshair size={16} color="var(--accent)" />
-            HALIDE_CORE
-          </div>
-          <div style={{ textAlign: 'right', fontFamily: 'monospace', color: 'var(--accent)', fontSize: '0.7rem' }}>
-            <div>LATITUDE: 34.0522° N</div>
-            <div>FOCAL DEPTH: 80MM</div>
-          </div>
-
           <h1 className="hero-title">SILVER<br />SULPHIDE</h1>
-
-          <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%' }}>
-            <div style={{ fontFamily: 'monospace', fontSize: '0.75rem', maxWidth: '50%' }}>
-              <p>[ ARCHIVE 2024 ]</p>
-              <p>SURFACE TENSION & TOPOGRAPHICAL LIGHT</p>
-            </div>
-            <div style={{ pointerEvents: 'auto' }}>
-                <a href="#" className="cta-button">EXPLORE DEPTH</a>
-            </div>
-          </div>
         </div>
 
         <div className="scroll-hint"></div>

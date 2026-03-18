@@ -79,24 +79,7 @@ export default function ScrollAnimatedVideo({
         container.appendChild(darkenEl);
       }
 
-      if (headline) {
-        heroTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: headline,
-            start: "top top",
-            end: "top+=420 top",
-            scrub: 1.2,
-          },
-        });
-        headline.querySelectorAll(".hsv-headline > *").forEach((el, i) => {
-          heroTl.to(el, {
-            rotationX: 80, y: -36, scale: 0.86,
-            opacity: 0, filter: "blur(4px)",
-            transformOrigin: "center top",
-            ease: "power3.inOut",
-          }, i * 0.08);
-        });
-      }
+      // Removed heroTl animation so Screen 1 stays perfectly still while Screen 2 scrolls over it.
 
       const triggerEl = rootRef.current?.querySelector("[data-sticky-scroll]");
       if (!triggerEl || !container || !overlayEl) return;
@@ -119,7 +102,7 @@ export default function ScrollAnimatedVideo({
 
       mainTl
         .to(container, {
-          width: "96vw", height: "94vh",
+          width: "100%", height: "100vh",
           borderRadius: 0,
           ease: "expo.out",
         }, 0)
@@ -257,7 +240,7 @@ export default function ScrollAnimatedVideo({
 
   return (
     <>
-      <div ref={rootRef} style={{ background: "#000", overflowX: "clip" }}>
+      <div ref={rootRef} style={{ background: "#000" }}>
 
         {/* ══════════════════════════════════════
             SCREEN 1 — BLACK HERO
@@ -276,7 +259,9 @@ export default function ScrollAnimatedVideo({
             justifyContent: "center",
             padding: 0,
             perspective: "900px",
-            position: "relative", // needed for badge positioning
+            position: "sticky",
+            top: 0,
+            zIndex: 0,
           }}
         >
           {/* Dev badge — remove showBadges prop (or set false) in production */}
@@ -302,14 +287,15 @@ export default function ScrollAnimatedVideo({
         ══════════════════════════════════════ */}
         <div
           data-sticky-scroll
-          style={{ height: `${Math.max(150, scrollHeightVh)}vh`, position: "relative" }}
+          style={{ height: `${Math.max(150, scrollHeightVh)}vh`, position: "relative", zIndex: 1 }}
         >
           <div
             style={{
               position: "sticky", top: 0,
               height: "100vh",
               display: "grid", placeItems: "center",
-              background: "#000",
+              background: "transparent",
+              pointerEvents: "none",
             }}
           >
             {/* Media box */}
@@ -317,6 +303,7 @@ export default function ScrollAnimatedVideo({
               ref={containerRef}
               style={{
                 position: "relative",
+                pointerEvents: "auto",
                 width: initialBoxSize,
                 height: initialBoxSize,
                 borderRadius: 20,
