@@ -1,20 +1,5 @@
 import { useEffect, useRef } from "react";
 
-/**
- * ScrollAnimatedVideo
- *
- * USAGE:
- *   <ScrollAnimatedVideo videoSrc="/your-video.mp4" />
- *
- * PROPS:
- *   videoSrc        — path/URL to your video (required)
- *   poster          — optional poster image URL
- *   initialBoxSize  — starting box size in px (default 320)
- *   scrollHeightVh  — total scroll distance in vh (default 280)
- *   heroContent     — JSX shown on Screen 1 (black hero screen)
- *   overlayContent  — JSX shown on Screen 3 (black overlay screen)
- *   showBadges      — show dev badges on Screen 1 & 3 (default true, set false in prod)
- */
 export default function ScrollAnimatedVideo({
   videoSrc = "https://www.w3schools.com/html/mov_bbb.mp4",
   poster,
@@ -32,7 +17,7 @@ export default function ScrollAnimatedVideo({
 
   useEffect(() => {
     let gsap, ScrollTrigger, CustomEase;
-    let heroTl, mainTl;
+    let mainTl;
     let darkenEl = null;
     let lenis, rafCb;
     let cancelled = false;
@@ -67,7 +52,8 @@ export default function ScrollAnimatedVideo({
       const container = containerRef.current;
       const overlayEl = overlayRef.current;
       const overlayConEl = overlayConRef.current;
-      const headline = headlineRef.current;
+      
+      // Removed heroTl animation perfectly -- Screen 1 is rigidly sticky now!
 
       if (container) {
         darkenEl = document.createElement("div");
@@ -78,8 +64,6 @@ export default function ScrollAnimatedVideo({
         });
         container.appendChild(darkenEl);
       }
-
-      // Removed heroTl animation so Screen 1 stays perfectly still while Screen 2 scrolls over it.
 
       const triggerEl = rootRef.current?.querySelector("[data-sticky-scroll]");
       if (!triggerEl || !container || !overlayEl) return;
@@ -132,7 +116,7 @@ export default function ScrollAnimatedVideo({
 
     return () => {
       cancelled = true;
-      try { heroTl?.kill(); mainTl?.kill(); } catch { }
+      try { mainTl?.kill(); } catch { }
       try {
         ScrollTrigger?.getAll?.().forEach((t) =>
           rootRef.current?.contains(t.trigger) && t.kill(true)
@@ -170,7 +154,6 @@ export default function ScrollAnimatedVideo({
           userSelect: "none",
         }}
       >
-        {/* Main badge pill */}
         <div
           style={{
             display: "inline-flex",
@@ -184,7 +167,6 @@ export default function ScrollAnimatedVideo({
             WebkitBackdropFilter: "blur(8px)",
           }}
         >
-          {/* Circle with number */}
           <div
             style={{
               width: 22,
@@ -218,7 +200,6 @@ export default function ScrollAnimatedVideo({
           </span>
         </div>
 
-        {/* Description tag */}
         <div
           style={{
             marginLeft: 4,
@@ -244,9 +225,6 @@ export default function ScrollAnimatedVideo({
 
         {/* ══════════════════════════════════════
             SCREEN 1 — BLACK HERO
-            Pass your JSX via heroContent prop
-            e.g. heroContent={<MyHero />}
-            Remove showBadges prop in production
         ══════════════════════════════════════ */}
         <div
           ref={headlineRef}
@@ -257,14 +235,13 @@ export default function ScrollAnimatedVideo({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: 0,
+            padding: 0, 
             perspective: "900px",
             position: "sticky",
             top: 0,
             zIndex: 0,
           }}
         >
-          {/* Dev badge — remove showBadges prop (or set false) in production */}
           {showBadges && (
             <ScreenBadge
               number={1}
@@ -283,7 +260,6 @@ export default function ScrollAnimatedVideo({
 
         {/* ══════════════════════════════════════
             SCROLL TRIGGER ZONE
-            Video expands as you scroll
         ══════════════════════════════════════ */}
         <div
           data-sticky-scroll
@@ -298,7 +274,6 @@ export default function ScrollAnimatedVideo({
               pointerEvents: "none",
             }}
           >
-            {/* Media box */}
             <div
               ref={containerRef}
               style={{
@@ -312,7 +287,6 @@ export default function ScrollAnimatedVideo({
                 boxShadow: "0 12px 48px rgba(0,0,0,0.7)",
               }}
             >
-              {/* YOUR VIDEO — swap videoSrc prop for your own file */}
               <video
                 poster={poster}
                 muted
@@ -326,9 +300,6 @@ export default function ScrollAnimatedVideo({
 
               {/* ══════════════════════════════════════
                   SCREEN 3 — BLACK OVERLAY
-                  Pass your JSX via overlayContent prop
-                  e.g. overlayContent={<MySection />}
-                  Remove showBadges prop in production
               ══════════════════════════════════════ */}
               <div
                 ref={overlayRef}
@@ -343,7 +314,6 @@ export default function ScrollAnimatedVideo({
                   padding: "clamp(16px, 4vw, 48px)",
                 }}
               >
-                {/* Dev badge — remove showBadges prop (or set false) in production */}
                 {showBadges && (
                   <ScreenBadge
                     number={3}

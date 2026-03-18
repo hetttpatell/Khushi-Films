@@ -1,10 +1,19 @@
 import { useRef } from 'react';
 import ScrollAnimatedVideo from './components/ScrollAnimatedVideo';
 import HalideHero from './components/HalideHero';
+import { NavBar } from './components/ui/TubelightNavbar';
+import { Home, User, Briefcase, FileText } from 'lucide-react';
 import './App.css';
 
 function App() {
   const container = useRef();
+
+  const navItems = [
+    { name: 'Home', url: '#', icon: Home },
+    { name: 'About', url: '#', icon: User },
+    { name: 'Projects', url: '#', icon: Briefcase },
+    { name: 'Resume', url: '#', icon: FileText }
+  ];
 
   const heroJSX = (
     <div className="flex flex-col items-center justify-center h-full w-full relative">
@@ -21,12 +30,13 @@ function App() {
   );
 
   return (
-    <main ref={container} className="bg-black min-h-screen text-white antialiased">
+    <main ref={container} className="bg-black min-h-screen text-white antialiased relative">
+      <NavBar items={navItems} />
       <ScrollAnimatedVideo
         videoSrc="https://www.w3schools.com/html/mov_bbb.mp4"
         heroContent={heroJSX}
         overlayContent={overlayJSX}
-        showBadges={true}
+        showBadges={false}
       />
     </main>
   );

@@ -48,6 +48,8 @@ const HalideHero = () => {
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
         :root {
           --silver: #e0e0e0;
           --accent: #ff3c00;
@@ -121,21 +123,24 @@ const HalideHero = () => {
           position: absolute;
           inset: 0;
           padding: 4rem;
+          padding-left: clamp(2rem, 8vw, 8rem);
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
           z-index: 10;
           pointer-events: none;
         }
 
         .hero-title {
-          font-size: clamp(3rem, 10vw, 10rem);
-          line-height: 0.85;
-          letter-spacing: -0.04em;
-          mix-blend-mode: difference;
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(3rem, 9vw, 9rem);
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          mix-blend-mode: normal;
           color: white;
-          font-weight: 800;
-          text-align: center;
+          font-weight: 600;
+          text-align: left;
+          text-shadow: 0 4px 24px rgba(0,0,0,0.4);
         }
 
         .cta-button {
@@ -187,7 +192,10 @@ const HalideHero = () => {
         </div>
 
         <div className="interface-grid">
-          <h1 className="hero-title">SILVER<br />SULPHIDE</h1>
+          <h1 className="hero-title">
+            Khushi<br />
+            <span style={{ fontStyle: 'italic', fontWeight: 400 }}>Films</span>
+          </h1>
         </div>
 
         <div className="scroll-hint"></div>
