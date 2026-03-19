@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import ScrollAnimatedVideo from './components/ScrollAnimatedVideo';
 import HalideHero from './components/HalideHero';
+import { PortfolioTimeline } from './components/PortfolioTimeline';
 import { NavBar } from './components/ui/TubelightNavbar';
 import { CustomCursor } from './components/ui/CustomCursor';
 import { Home, User, Briefcase, FileText } from 'lucide-react';
@@ -23,10 +24,8 @@ function App() {
   );
 
   const overlayJSX = (
-    <div className="flex flex-col items-center justify-center p-8 w-full max-w-4xl mx-auto h-full">
-      <h2 className="text-4xl md:text-6xl font-semibold text-white uppercase tracking-tight">
-        Screen 3
-      </h2>
+    <div className="w-full relative">
+      <PortfolioTimeline />
     </div>
   );
 

@@ -82,7 +82,7 @@ export default function ScrollAnimatedVideo({
         borderRadius: 20,
       });
       gsap.set(overlayEl, { clipPath: "inset(100% 0 0 0)" });
-      if (overlayConEl) gsap.set(overlayConEl, { y: 30, scale: 1.04 });
+      if (overlayConEl) gsap.set(overlayConEl, { y: 0, scale: 1 });
 
       mainTl
         .to(container, {
@@ -97,11 +97,7 @@ export default function ScrollAnimatedVideo({
         .to(overlayEl, {
           clipPath: "inset(0% 0 0 0)",
           ease: "expo.out",
-        }, 0.38)
-        .to(overlayConEl || {}, {
-          y: 0, scale: 1,
-          ease: "expo.out",
-        }, 0.44);
+        }, 0.38);
 
       const videoEl = container.querySelector("video");
       if (videoEl) {
@@ -299,36 +295,41 @@ export default function ScrollAnimatedVideo({
               </video>
 
               {/* ══════════════════════════════════════
-                  SCREEN 3 — BLACK OVERLAY
+                  SCREEN 3 — PORTFOLIO OVERLAY
               ══════════════════════════════════════ */}
               <div
                 ref={overlayRef}
                 style={{
                   position: "absolute", inset: 0,
-                  background: "#000",
-                  zIndex: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  zIndex: 10,
+                  display: "block",
                   clipPath: "inset(100% 0 0 0)",
-                  padding: "clamp(16px, 4vw, 48px)",
+                  pointerEvents: "none",
+                  overflow: "hidden" 
                 }}
               >
-                {showBadges && (
-                  <ScreenBadge
-                    number={3}
-                    description="overlayContent prop → your content here"
-                    align="top-left"
-                  />
-                )}
-
-                <div ref={overlayConRef} style={{ width: "100%", maxWidth: 720 }}>
-                  {overlayContent ?? null}
+                <div style={{ width: "100%", height: "100vh" }}>
+                  {overlayContent}
                 </div>
               </div>
 
             </div>
           </div>
+        </div>
+
+        {/* ══════════════════════════════════════
+            SCREEN 3 — ACTUAL CONTENT FLOW
+        ══════════════════════════════════════ */}
+        <div 
+          style={{ 
+            position: "relative", 
+            zIndex: 0, // Placed strictly behind the sticky scroll container
+            background: "#000",
+            width: "100%",
+            marginTop: "-100vh", // Exactly overlaps the pinned video, allowing seamless continuation!
+          }}
+        >
+          {overlayContent ?? null}
         </div>
 
       </div>
