@@ -4,7 +4,7 @@ export default function ScrollAnimatedVideo({
   videoSrc = "https://www.w3schools.com/html/mov_bbb.mp4",
   poster,
   initialBoxSize = 320,
-  scrollHeightVh = 200, // Reduced slightly to make the transition snappier
+  scrollHeightVh = 280,
   heroContent,
   overlayContent,
   showBadges = true,
@@ -12,6 +12,7 @@ export default function ScrollAnimatedVideo({
   const rootRef = useRef(null);
   const containerRef = useRef(null);
   const headlineRef = useRef(null);
+  const overlayRef = useRef(null);
   const overlayConRef = useRef(null);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function ScrollAnimatedVideo({
       const container = containerRef.current;
       const overlayEl = overlayRef.current;
       const overlayConEl = overlayConRef.current;
-      
+
       // Removed heroTl animation perfectly -- Screen 1 is rigidly sticky now!
 
       if (container) {
@@ -87,12 +88,17 @@ export default function ScrollAnimatedVideo({
         .to(container, {
           width: "100%", height: "100vh",
           borderRadius: 0,
+          boxShadow: "none",
           ease: "expo.out",
         }, 0)
         .to(darkenEl, {
           backgroundColor: "rgba(0,0,0,0.55)",
           ease: "power2.out",
-        }, 0);
+        }, 0)
+        .to(overlayEl, {
+          clipPath: "inset(0% 0 0 0)",
+          ease: "expo.out",
+        }, 0.38);
 
       const videoEl = container.querySelector("video");
       if (videoEl) {
@@ -226,7 +232,7 @@ export default function ScrollAnimatedVideo({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: 0, 
+            padding: 0,
             perspective: "900px",
             position: "sticky",
             top: 0,
@@ -289,6 +295,24 @@ export default function ScrollAnimatedVideo({
                 <source src={videoSrc} type="video/mp4" />
               </video>
 
+              {/* ══════════════════════════════════════
+                  SCREEN 3 — PORTFOLIO OVERLAY
+              ══════════════════════════════════════ */}
+              <div
+                ref={overlayRef}
+                style={{
+                  position: "absolute", inset: 0,
+                  zIndex: 10,
+                  display: "block",
+                  clipPath: "inset(100% 0 0 0)",
+                  pointerEvents: "none",
+                  overflow: "hidden"
+                }}
+              >
+                <div style={{ width: "100%", height: "100vh" }}>
+                  {overlayContent}
+                </div>
+              </div>
 
             </div>
           </div>
@@ -297,12 +321,13 @@ export default function ScrollAnimatedVideo({
         {/* ══════════════════════════════════════
             SCREEN 3 — ACTUAL CONTENT FLOW
         ══════════════════════════════════════ */}
-        <div 
-          style={{ 
-            position: "relative", 
-            zIndex: 20, 
+        <div
+          style={{
+            position: "relative",
+            zIndex: 0, // Placed strictly behind the sticky scroll container
             background: "#000",
-            width: "100%"
+            width: "100%",
+            marginTop: "-100vh", // Exactly overlaps the pinned video, allowing seamless continuation!
           }}
         >
           {overlayContent ?? null}
