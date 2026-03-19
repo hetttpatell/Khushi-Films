@@ -4,7 +4,7 @@ export default function ScrollAnimatedVideo({
   videoSrc = "https://www.w3schools.com/html/mov_bbb.mp4",
   poster,
   initialBoxSize = 320,
-  scrollHeightVh = 280,
+  scrollHeightVh = 300,
   heroContent,
   overlayContent,
   showBadges = true,
@@ -12,13 +12,10 @@ export default function ScrollAnimatedVideo({
   const rootRef = useRef(null);
   const containerRef = useRef(null);
   const headlineRef = useRef(null);
-  const overlayRef = useRef(null);
-  const overlayConRef = useRef(null);
 
   useEffect(() => {
     let gsap, ScrollTrigger, CustomEase;
     let mainTl;
-    let darkenEl = null;
     let lenis, rafCb;
     let cancelled = false;
 
@@ -39,6 +36,7 @@ export default function ScrollAnimatedVideo({
       gsap.registerPlugin(ScrollTrigger, CustomEase);
       if (cancelled) return;
 
+      // ── Lenis smooth scroll ────────────────────────────────────────────
       const lenisPkg = await import("lenis").catch(() => null);
       const LenisCtor = lenisPkg?.default || lenisPkg?.Lenis;
       if (LenisCtor) {
@@ -50,24 +48,18 @@ export default function ScrollAnimatedVideo({
       }
 
       const container = containerRef.current;
-      const overlayEl = overlayRef.current;
-      const overlayConEl = overlayConRef.current;
-
-      // Removed heroTl animation perfectly -- Screen 1 is rigidly sticky now!
-
-      if (container) {
-        darkenEl = document.createElement("div");
-        Object.assign(darkenEl.style, {
-          position: "absolute", inset: "0",
-          background: "rgba(0,0,0,0)",
-          pointerEvents: "none", zIndex: "1",
-        });
-        container.appendChild(darkenEl);
-      }
-
       const triggerEl = rootRef.current?.querySelector("[data-sticky-scroll]");
-      if (!triggerEl || !container || !overlayEl) return;
 
+      if (!triggerEl || !container) return;
+
+      // ── Initial state ──────────────────────────────────────────────────
+      gsap.set(container, {
+        width: initialBoxSize,
+        height: initialBoxSize,
+        borderRadius: 20,
+      });
+
+      // ── Scrub: box → fullscreen ────────────────────────────────────────
       mainTl = gsap.timeline({
         scrollTrigger: {
           trigger: triggerEl,
@@ -77,35 +69,22 @@ export default function ScrollAnimatedVideo({
         },
       });
 
-      gsap.set(container, {
-        width: initialBoxSize, height: initialBoxSize,
-        borderRadius: 20,
+      mainTl.to(container, {
+        width: "100vw",
+        height: "100vh",
+        borderRadius: 0,
+        boxShadow: "none",
+        ease: "expo.out",
       });
-      gsap.set(overlayEl, { clipPath: "inset(100% 0 0 0)" });
-      if (overlayConEl) gsap.set(overlayConEl, { y: 0, scale: 1 });
 
-      mainTl
-        .to(container, {
-          width: "100%", height: "100vh",
-          borderRadius: 0,
-          boxShadow: "none",
-          ease: "expo.out",
-        }, 0)
-        .to(darkenEl, {
-          backgroundColor: "rgba(0,0,0,0.55)",
-          ease: "power2.out",
-        }, 0)
-        .to(overlayEl, {
-          clipPath: "inset(0% 0 0 0)",
-          ease: "expo.out",
-        }, 0.38);
-
+      // ── Keep video playing ─────────────────────────────────────────────
       const videoEl = container.querySelector("video");
       if (videoEl) {
         const tryPlay = () => videoEl.play().catch(() => { });
         tryPlay();
         ScrollTrigger.create({
-          trigger: triggerEl, start: "top top",
+          trigger: triggerEl,
+          start: "top top",
           onEnter: tryPlay,
         });
       }
@@ -119,7 +98,6 @@ export default function ScrollAnimatedVideo({
           rootRef.current?.contains(t.trigger) && t.kill(true)
         );
       } catch { }
-      try { darkenEl?.parentElement?.removeChild(darkenEl); } catch { }
       try {
         if (rafCb && gsap?.ticker) {
           gsap.ticker.remove(rafCb);
@@ -131,87 +109,15 @@ export default function ScrollAnimatedVideo({
     };
   }, [initialBoxSize, scrollHeightVh]);
 
-  /* ── Reusable badge component ── */
   const ScreenBadge = ({ number, description, align = "top-left" }) => {
-    const positions = {
-      "top-left": { top: 20, left: 20 },
-      "top-right": { top: 20, right: 20 },
-    };
+    const pos = align === "top-left" ? { top: 20, left: 20 } : { top: 20, right: 20 };
     return (
-      <div
-        style={{
-          position: "absolute",
-          ...positions[align],
-          zIndex: 100,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          gap: 6,
-          pointerEvents: "none",
-          userSelect: "none",
-        }}
-      >
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: "rgba(255,255,255,0.08)",
-            border: "1px solid rgba(255,255,255,0.15)",
-            borderRadius: 999,
-            padding: "5px 12px 5px 6px",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-          }}
-        >
-          <div
-            style={{
-              width: 22,
-              height: 22,
-              borderRadius: "50%",
-              background: "rgba(255,255,255,0.9)",
-              color: "#000",
-              fontSize: 11,
-              fontWeight: 700,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "ui-monospace, monospace",
-              flexShrink: 0,
-            }}
-          >
-            {number}
-          </div>
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              color: "rgba(255,255,255,0.85)",
-              fontFamily: "ui-monospace, monospace",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Screen {number}
-          </span>
+      <div style={{ position: "absolute", ...pos, zIndex: 100, display: "flex", flexDirection: "column", gap: 6, pointerEvents: "none", userSelect: "none" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 999, padding: "5px 12px 5px 6px", backdropFilter: "blur(8px)" }}>
+          <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.9)", color: "#000", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "ui-monospace,monospace" }}>{number}</div>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", fontFamily: "ui-monospace,monospace", letterSpacing: "0.08em", textTransform: "uppercase", whiteSpace: "nowrap" }}>Screen {number}</span>
         </div>
-
-        <div
-          style={{
-            marginLeft: 4,
-            background: "rgba(255,255,255,0.05)",
-            border: "1px dashed rgba(255,255,255,0.12)",
-            borderRadius: 6,
-            padding: "3px 8px",
-            fontSize: 10,
-            color: "rgba(255,255,255,0.4)",
-            fontFamily: "ui-monospace, monospace",
-            letterSpacing: "0.04em",
-          }}
-        >
-          {description}
-        </div>
+        <div style={{ marginLeft: 4, background: "rgba(255,255,255,0.05)", border: "1px dashed rgba(255,255,255,0.12)", borderRadius: 6, padding: "3px 8px", fontSize: 10, color: "rgba(255,255,255,0.4)", fontFamily: "ui-monospace,monospace" }}>{description}</div>
       </div>
     );
   };
@@ -220,33 +126,18 @@ export default function ScrollAnimatedVideo({
     <>
       <div ref={rootRef} style={{ background: "#000" }}>
 
-        {/* ══════════════════════════════════════
-            SCREEN 1 — BLACK HERO
-        ══════════════════════════════════════ */}
+        {/* ════════════════════════════════════
+            SCREEN 1 — HERO
+        ════════════════════════════════════ */}
         <div
           ref={headlineRef}
           style={{
-            height: "100vh",
-            width: "100%",
-            background: "#000",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 0,
-            perspective: "900px",
-            position: "sticky",
-            top: 0,
-            zIndex: 0,
+            height: "100vh", width: "100%", background: "#000",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            perspective: "900px", position: "sticky", top: 0, zIndex: 0,
           }}
         >
-          {showBadges && (
-            <ScreenBadge
-              number={1}
-              description="heroContent prop → your content here"
-              align="top-left"
-            />
-          )}
-
+          {showBadges && <ScreenBadge number={1} description="heroContent prop" />}
           <div
             className="hsv-headline"
             style={{ transformStyle: "preserve-3d", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
@@ -255,22 +146,32 @@ export default function ScrollAnimatedVideo({
           </div>
         </div>
 
-        {/* ══════════════════════════════════════
-            SCROLL TRIGGER ZONE
-        ══════════════════════════════════════ */}
+        {/* ════════════════════════════════════
+            SCREEN 2 — VIDEO SCROLL ZONE
+            Only the video lives here.
+            No overflow:hidden — no trapped scroll.
+        ════════════════════════════════════ */}
         <div
           data-sticky-scroll
-          style={{ height: `${Math.max(150, scrollHeightVh)}vh`, position: "relative", zIndex: 1 }}
+          style={{
+            height: `${Math.max(150, scrollHeightVh)}vh`,
+            position: "relative",
+            zIndex: 1,
+          }}
         >
           <div
             style={{
-              position: "sticky", top: 0,
+              position: "sticky",
+              top: 0,
               height: "100vh",
-              display: "grid", placeItems: "center",
+              display: "grid",
+              placeItems: "center",
               background: "transparent",
               pointerEvents: "none",
             }}
           >
+            {showBadges && <ScreenBadge number={2} description="video expands to fullscreen" />}
+
             <div
               ref={containerRef}
               style={{
@@ -285,49 +186,30 @@ export default function ScrollAnimatedVideo({
               }}
             >
               <video
-                poster={poster}
-                muted
-                loop
-                playsInline
-                autoPlay
+                poster={poster} muted loop playsInline autoPlay
                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               >
                 <source src={videoSrc} type="video/mp4" />
               </video>
-
-              {/* ══════════════════════════════════════
-                  SCREEN 3 — PORTFOLIO OVERLAY
-              ══════════════════════════════════════ */}
-              <div
-                ref={overlayRef}
-                style={{
-                  position: "absolute", inset: 0,
-                  zIndex: 10,
-                  display: "block",
-                  clipPath: "inset(100% 0 0 0)",
-                  pointerEvents: "none",
-                  overflow: "hidden"
-                }}
-              >
-                <div style={{ width: "100%", height: "100vh" }}>
-                  {overlayContent}
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
 
-        {/* ══════════════════════════════════════
-            SCREEN 3 — ACTUAL CONTENT FLOW
-        ══════════════════════════════════════ */}
+        {/* ════════════════════════════════════
+            SCREEN 3 — NORMAL DOCUMENT FLOW
+            margin-top: -100vh makes it start
+            exactly where the fullscreen video is,
+            so it slides up naturally over it as
+            the user scrolls. No internal scroll.
+            z-index: 5 ensures it covers the video.
+        ════════════════════════════════════ */}
         <div
           style={{
             position: "relative",
-            zIndex: 0, // Placed strictly behind the sticky scroll container
+            zIndex: 5,
+            marginTop: "-100vh",
             background: "#000",
             width: "100%",
-            marginTop: "-100vh", // Exactly overlaps the pinned video, allowing seamless continuation!
           }}
         >
           {overlayContent ?? null}

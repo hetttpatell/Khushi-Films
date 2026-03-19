@@ -38,6 +38,7 @@ function App() {
         heroContent={heroJSX}
         overlayContent={overlayJSX}
         showBadges={false}
+        scrollHeightVh={300}
       />
     </main>
   );
