@@ -28,7 +28,7 @@ const CheckItem = ({ text }) => (
 export function PortfolioTimeline() {
   const data = [
     {
-      title: "2024",
+      title: "Weddings",
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
@@ -58,7 +58,7 @@ export function PortfolioTimeline() {
       ),
     },
     {
-      title: "Early 2023",
+      title: "Concerts",
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
@@ -92,7 +92,7 @@ export function PortfolioTimeline() {
       ),
     },
     {
-      title: "Changelog",
+      title: "Openings",
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
