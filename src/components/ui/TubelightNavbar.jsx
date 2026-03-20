@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { cn } from "../../lib/utils"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 export function NavBar({ items, className }) {
-  const [activeTab, setActiveTab] = useState(items[0].name)
+  const location = useLocation()
+  const [activeTab, setActiveTab] = useState(() => {
+    const currentItem = items.find((item) => item.url === location.pathname)
+    return currentItem ? currentItem.name : items[0].name
+  })
   const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const currentItem = items.find((item) => item.url === location.pathname)
+    if (currentItem) {
+      setActiveTab(currentItem.name)
+    }
+  }, [location.pathname, items])
 
   useEffect(() => {
     const handleResize = () => {
