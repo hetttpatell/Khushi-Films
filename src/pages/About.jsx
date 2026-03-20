@@ -1,5 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { Footer } from '../components/ui/FooterSection';
+import { Link } from 'react-router-dom';
 
 /* ─────────────────────────────────────────────
    Reusable animation wrappers
@@ -528,7 +530,7 @@ export default function About() {
           </FadeUp>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            { [
+            {[
               { award: 'Best Wedding Film', body: 'India Wedding Awards', year: '2022' },
               { award: 'Top 10 Videographers', body: 'Wedding Sutra Editorial', year: '2021' },
               { award: 'Featured Vendor', body: 'Vogue India Weddings', year: '2023' },
@@ -580,42 +582,25 @@ export default function About() {
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <FadeUp>
             <p className="text-white/30 text-xs tracking-[0.4em] uppercase mb-8">
-              Ready to Begin?
+              The Lens Is Ready
             </p>
             <h2
               style={{ fontFamily: "'Playfair Display', serif" }}
               className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6"
             >
-              Let&apos;s Tell Your<br />
+              Your Moment<br />
               <span style={{ fontStyle: 'italic', fontWeight: 400 }} className="text-white/70">
-                Story Together
+                Deserves More
               </span>
             </h2>
           </FadeUp>
 
           <FadeUp delay={0.15}>
             <p className="text-white/45 text-lg leading-relaxed max-w-xl mx-auto mb-14 font-light">
-              Whether it&apos;s your wedding day, a grand opening, or a vision that hasn&apos;t
-              found its form yet — bring it to Rakesh, and he&apos;ll bring it to life.
+              Not just documented. Not just recorded.
+              Crafted into something you&apos;ll watch twenty years from now
+              and feel exactly what you felt that day.
             </p>
-          </FadeUp>
-
-          <FadeUp delay={0.25}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="mailto:hello@khushifilms.com"
-                className="group flex items-center gap-3 px-10 py-4 bg-white text-black font-bold text-xs tracking-[0.2em] uppercase hover:bg-white/90 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
-              >
-                Book a Conversation
-                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-              </a>
-              <a
-                href="/projects"
-                className="flex items-center gap-3 px-10 py-4 bg-transparent text-white border border-white/20 font-bold text-xs tracking-[0.2em] uppercase hover:border-white/50 hover:bg-white/5 transition-all duration-300"
-              >
-                View The Work
-              </a>
-            </div>
           </FadeUp>
 
           <FadeIn delay={0.4} className="mt-20">
@@ -626,6 +611,7 @@ export default function About() {
         </div>
       </section>
 
+      <Footer />
     </div>
   );
 }

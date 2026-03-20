@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 
 // ── Replace with your Cal.com event link ─────────────────────────────────────
-const CAL_EVENT_URL = "https://cal.com/your-username/your-event";
+const CAL_EVENT_URL = "https://cal.com/het-patel-adejx8/bookings";
 
 const EVENT_TYPES = [
     { id: "wedding", label: "Wedding" },

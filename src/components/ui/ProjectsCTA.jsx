@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const ProjectsCTA = () => {
   return (
@@ -33,16 +34,12 @@ export const ProjectsCTA = () => {
       </div>
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6 z-20 text-white">
-        <button
-          onClick={() => {
-            window.location.href = 'mailto:hello@khushifilms.com';
-            // console.log("print")
-          }
-          }
+        <Link
+          to="/booking"
           className="relative group z-50 pointer-events-auto flex items-center justify-center gap-2 rounded-full bg-white text-black px-8 py-3.5 font-bold transition-all hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(255,255,255,0.25)] cursor-pointer border-none outline-none"
         >
           Book a call now
-        </button>
+        </Link>
       </div>
     </div>
   );

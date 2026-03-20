@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { NavBar } from './components/ui/TubelightNavbar';
 import { CustomCursor } from './components/ui/CustomCursor';
-import { Home as HomeIcon, User, Briefcase, FileText } from 'lucide-react';
+import { Home as HomeIcon, User, Briefcase, FileText, Mail } from 'lucide-react';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import About from './pages/About';
+import Booking from './pages/Booking';
 import './App.css';
 
 /**
@@ -35,7 +36,7 @@ function App() {
     { name: 'Home', url: '/', icon: HomeIcon },
     { name: 'About', url: '/about', icon: User },
     { name: 'Projects', url: '/projects', icon: Briefcase },
-    { name: 'Resume', url: '/resume', icon: FileText },
+    { name: 'Contact', url: '/booking', icon: Mail },
   ];
 
   return (
@@ -52,6 +53,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/booking" element={<Booking />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

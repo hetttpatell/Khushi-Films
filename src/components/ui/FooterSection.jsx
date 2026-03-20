@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FacebookIcon, FrameIcon, InstagramIcon, LinkedinIcon, YoutubeIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const footerLinks = [
 	{
@@ -116,13 +117,8 @@ export function Footer() {
 						))}
 
 						<div className="mt-6 md:mt-0 flex items-start md:justify-end">
-							<button
-								type="button"
-								onClick={() =>
-									alert(
-										'Booking portal coming soon. Please email info@khushifilms.com in the meantime!'
-									)
-								}
+							<Link
+								to="/booking"
 								className="px-6 py-3 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-opacity cursor-pointer whitespace-nowrap"
 								style={{
 									position: 'relative',
@@ -132,7 +128,7 @@ export function Footer() {
 								}}
 							>
 								Book Now
-							</button>
+							</Link>
 						</div>
 					</div>
 				</div>

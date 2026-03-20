@@ -27,18 +27,20 @@ export function CustomCursor() {
       }
     }
 
-    const handleMouseLeave = () => {
-      setIsVisible(false)
+    const handleMouseLeave = (e) => {
+      if (!e.relatedTarget) {
+        setIsVisible(false)
+      }
     }
 
     window.addEventListener("mousemove", updateMousePosition)
     window.addEventListener("mouseover", handleMouseOver)
-    document.body.addEventListener("mouseleave", handleMouseLeave)
+    document.addEventListener("mouseout", handleMouseLeave)
 
     return () => {
       window.removeEventListener("mousemove", updateMousePosition)
       window.removeEventListener("mouseover", handleMouseOver)
-      document.body.removeEventListener("mouseleave", handleMouseLeave)
+      document.removeEventListener("mouseout", handleMouseLeave)
     }
   }, [])
 
