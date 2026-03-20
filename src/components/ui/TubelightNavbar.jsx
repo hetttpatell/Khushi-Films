@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { cn } from "../../lib/utils"
+import { Link } from "react-router-dom"
 
 export function NavBar({ items, className }) {
   const [activeTab, setActiveTab] = useState(items[0].name)
@@ -19,7 +20,7 @@ export function NavBar({ items, className }) {
   return (
     <div
       className={cn(
-        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6",
+        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-[100] mb-6 sm:pt-6",
         className,
       )}
     >
@@ -29,11 +30,10 @@ export function NavBar({ items, className }) {
           const isActive = activeTab === item.name
 
           return (
-            <a
+            <Link
               key={item.name}
-              href={item.url}
-              onClick={(e) => {
-                e.preventDefault();
+              to={item.url}
+              onClick={() => {
                 setActiveTab(item.name);
               }}
               className={cn(
@@ -64,7 +64,7 @@ export function NavBar({ items, className }) {
                   </div>
                 </motion.div>
               )}
-            </a>
+            </Link>
           )
         })}
       </div>

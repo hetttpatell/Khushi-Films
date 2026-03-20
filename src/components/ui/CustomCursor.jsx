@@ -55,6 +55,12 @@ export function CustomCursor() {
       {/* Outer outline ring */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-white/50"
+        style={{
+          width: 32,
+          height: 32,
+          mixBlendMode: "difference",
+          pointerEvents: "none",
+        }}
         animate={{
           x: mousePosition.x - 16,
           y: mousePosition.y - 16,
@@ -67,16 +73,15 @@ export function CustomCursor() {
           damping: 15,
           mass: 0.5,
         }}
-        style={{
-          width: 32,
-          height: 32,
-          mixBlendMode: "difference",
-        }}
       />
 
       {/* Inner solid dot */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[10000] rounded-full bg-white"
+        style={{
+          mixBlendMode: "difference",
+          pointerEvents: "none",
+        }}
         animate={{
           x: mousePosition.x - (isHovering ? 24 : 4),
           y: mousePosition.y - (isHovering ? 24 : 4),
@@ -88,9 +93,6 @@ export function CustomCursor() {
           stiffness: 300,
           damping: 20,
           mass: 0.2,
-        }}
-        style={{
-          mixBlendMode: "difference",
         }}
       />
     </>

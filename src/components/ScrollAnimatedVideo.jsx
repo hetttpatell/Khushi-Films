@@ -124,7 +124,12 @@ export default function ScrollAnimatedVideo({
 
   return (
     <>
-      <div ref={rootRef} style={{ background: "#000" }}>
+      {/*
+        FIX: rootRef needs position: relative to establish a proper stacking context.
+        Without it, z-index comparisons between children can behave inconsistently
+        across browsers, causing higher z-index siblings to lose hit-testing races.
+      */}
+      <div ref={rootRef} style={{ background: "#000", position: "relative", zIndex: 1 }}>
 
         {/* ════════════════════════════════════
             SCREEN 1 — HERO
@@ -135,12 +140,29 @@ export default function ScrollAnimatedVideo({
             height: "100vh", width: "100%", background: "#000",
             display: "flex", alignItems: "center", justifyContent: "center",
             perspective: "900px", position: "sticky", top: 0, zIndex: 0,
+            // FIX: Keep the outer container non-interactive.
+            // The hero is sticky and remains in view throughout the page scroll.
+            // Giving pointer-events to the inner div caused it to intercept clicks
+            // meant for Screen 3 content (testimonials, booking form, etc).
+            pointerEvents: "none",
           }}
         >
           {showBadges && <ScreenBadge number={1} description="heroContent prop" />}
           <div
             className="hsv-headline"
-            style={{ transformStyle: "preserve-3d", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
+            style={{
+              transformStyle: "preserve-3d",
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              // FIX: Changed from "auto" to "none".
+              // This 100vw × 100vh div was sticky and had pointer-events: auto,
+              // making it compete with Screen 3 elements for click events.
+              // HalideHero (heroContent) manages its own pointer-events internally.
+              pointerEvents: "none",
+            }}
           >
             {heroContent ?? null}
           </div>
@@ -157,6 +179,16 @@ export default function ScrollAnimatedVideo({
             height: `${Math.max(150, scrollHeightVh)}vh`,
             position: "relative",
             zIndex: 1,
+            // FIX: THIS WAS THE PRIMARY BUG.
+            // This div is 300vh tall and had NO pointer-events: none.
+            // The last ~100vh of this div physically overlaps Screen 3 (due to
+            // Screen 3's marginTop: -100vh). Even with zIndex: 1 < Screen 3's
+            // zIndex: 5, the missing stacking context on rootRef caused browsers
+            // to use this transparent 300vh block as a hit target, swallowing
+            // all click events that should have reached the testimonials and
+            // booking form below. Adding pointer-events: none here is correct
+            // because nothing interactive lives in this scroll-driver container.
+            pointerEvents: "none",
           }}
         >
           <div
@@ -176,7 +208,7 @@ export default function ScrollAnimatedVideo({
               ref={containerRef}
               style={{
                 position: "relative",
-                pointerEvents: "auto",
+                pointerEvents: "none",
                 width: initialBoxSize,
                 height: initialBoxSize,
                 borderRadius: 20,
@@ -210,6 +242,10 @@ export default function ScrollAnimatedVideo({
             marginTop: "-100vh",
             background: "#000",
             width: "100%",
+            // FIX: Explicitly restore pointer events for all overlay content
+            // (testimonials, booking form, etc). This overrides any inherited
+            // pointer-events: none from parent components.
+            pointerEvents: "auto",
           }}
         >
           {overlayContent ?? null}

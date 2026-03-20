@@ -1,46 +1,59 @@
-import { useRef } from 'react';
-import ScrollAnimatedVideo from './components/ScrollAnimatedVideo';
-import HalideHero from './components/HalideHero';
-import { PortfolioTimeline } from './components/PortfolioTimeline';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { NavBar } from './components/ui/TubelightNavbar';
 import { CustomCursor } from './components/ui/CustomCursor';
-import { Home, User, Briefcase, FileText } from 'lucide-react';
+import { Home as HomeIcon, User, Briefcase, FileText } from 'lucide-react';
+import Home from './pages/Home';
+import Projects from './pages/Projects';
 import './App.css';
 
-function App() {
-  const container = useRef();
+/**
+ * ScrollToTop
+ * ──────────────────────────────────────────────────────────────────
+ * Listens for route changes and instantly snaps the window to the
+ * top of the page. Placed *inside* <Router> so it has access to the
+ * location context provided by React Router.
+ *
+ * Why `behavior: 'instant'` instead of `'smooth'`?
+ * Smooth scrolling on a full-page-height site (300 vh scroll zones,
+ * Lenis running) produces a jarring mid-animation jump. Instant is
+ * the right UX here — the new page simply starts at the top.
+ */
+function ScrollToTop() {
+  const { pathname } = useLocation();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
+
+  return null;
+}
+
+function App() {
   const navItems = [
-    { name: 'Home', url: '#', icon: Home },
-    { name: 'About', url: '#', icon: User },
-    { name: 'Projects', url: '#', icon: Briefcase },
-    { name: 'Resume', url: '#', icon: FileText }
+    { name: 'Home', url: '/', icon: HomeIcon },
+    { name: 'About', url: '/about', icon: User },
+    { name: 'Projects', url: '/projects', icon: Briefcase },
+    { name: 'Resume', url: '/resume', icon: FileText },
   ];
 
-  const heroJSX = (
-    <div className="flex flex-col items-center justify-center h-full w-full relative">
-      <HalideHero />
-    </div>
-  );
-
-  const overlayJSX = (
-    <div className="w-full relative">
-      <PortfolioTimeline />
-    </div>
-  );
-
   return (
-    <main ref={container} className="bg-black min-h-screen text-white antialiased relative">
-      <CustomCursor />
-      <NavBar items={navItems} />
-      <ScrollAnimatedVideo
-        videoSrc="https://www.w3schools.com/html/mov_bbb.mp4"
-        heroContent={heroJSX}
-        overlayContent={overlayJSX}
-        showBadges={false}
-        scrollHeightVh={300}
-      />
-    </main>
+    <Router>
+      {/* ScrollToTop must live inside Router to access useLocation */}
+      <ScrollToTop />
+      <main
+        className="bg-black min-h-screen text-white antialiased"
+        style={{ position: 'relative', zIndex: 0, isolation: 'isolate' }}
+      >
+        <CustomCursor />
+        <NavBar items={navItems} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </main>
+    </Router>
   );
 }
 
