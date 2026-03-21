@@ -326,6 +326,25 @@ const DicedHeroSection = ({
 };
 
 
+function Grain({ opacity = 0.07 }) {
+  return (
+    <>
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <filter id="prj-grain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+      </svg>
+      <div
+        style={{
+          position: 'fixed', inset: 0, pointerEvents: 'none',
+          zIndex: 3, opacity, filter: 'url(#prj-grain)',
+        }}
+      />
+    </>
+  );
+}
+
 // --- Main Projects Page ---
 
 export default function Projects() {
@@ -395,7 +414,20 @@ export default function Projects() {
   };
 
   return (
-    <div className="min-h-screen pt-32 flex flex-col items-center justify-start text-white bg-black w-full overflow-hidden">
+    <div className="min-h-screen pt-32 flex flex-col items-center justify-start text-white bg-black w-full overflow-hidden relative">
+      
+      {/* Background and Grain */}
+      <Grain opacity={0.09} />
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <img
+          src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=2000&auto=format&fit=crop&q=80"
+          alt=""
+          className="w-full h-full object-cover"
+          style={{ filter: 'grayscale(1) brightness(0.18) contrast(1.3)' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/60" />
+      </div>
       <h1 className="text-5xl md:text-7xl font-bold mb-10 text-center text-white drop-shadow-md" style={{ fontFamily: "'Playfair Display', serif", zIndex: 10, position: 'relative' }}>
         Projects
       </h1>

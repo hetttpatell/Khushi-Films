@@ -56,8 +56,21 @@ function useParticles(canvasRef, containerRef) {
       if (!update) circles.push(c);
     };
 
+    const onMouse = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left - W / 2;
+      mouse.y = e.clientY - rect.top  - H / 2;
+    };
+
+    let isIntersecting = true;
+    const observer = new IntersectionObserver((entries) => {
+      isIntersecting = entries[0].isIntersecting;
+    });
+    observer.observe(container);
+
     const animate = () => {
       animId = requestAnimationFrame(animate);
+      if (!isIntersecting) return;
       ctx.clearRect(0, 0, W, H);
 
       circles.forEach((c, i) => {
@@ -89,11 +102,7 @@ function useParticles(canvasRef, containerRef) {
       });
     };
 
-    const onMouse = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left - W / 2;
-      mouse.y = e.clientY - rect.top  - H / 2;
-    };
+
 
     resize();
     animate();
@@ -104,6 +113,7 @@ function useParticles(canvasRef, containerRef) {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouse);
+      observer.disconnect();
     };
   }, []);
 }
@@ -171,9 +181,12 @@ const HalideHero = () => {
     const mount = mountRef.current;
     if (!mount) return;
 
+    const isMobileDevice = window.innerWidth < 640;
+
     // ── RENDERER ──────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Drastically reduce pixel ratio on mobile
+    renderer.setPixelRatio(isMobileDevice ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     renderer.toneMapping         = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.5;
@@ -418,9 +431,18 @@ const HalideHero = () => {
       }, undefined, (e) => console.error('[HalideHero]', e));
     });
 
+    // ── OBSERVATION ───────────────────────────────────────────
+    let isIntersecting = true;
+    const observer = new IntersectionObserver((entries) => {
+      isIntersecting = entries[0].isIntersecting;
+    });
+    observer.observe(mount);
+
     // ── ANIMATE ───────────────────────────────────────────────
     const animate = () => {
       animId = requestAnimationFrame(animate);
+      if (!isIntersecting) return;
+
       const now = performance.now();
       if (model) {
         const bs = model.userData.sc || 1;
@@ -458,6 +480,7 @@ const HalideHero = () => {
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove',  onTouchMove);
       window.removeEventListener('resize', onResize);
+      observer.disconnect();
       renderer.dispose();
       if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
     };

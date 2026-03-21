@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, useMotionValue, useSpring } from "framer-motion"
 
 export function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 })
+  const mouseX = useMotionValue(-100)
+  const mouseY = useMotionValue(-100)
+  
+  const smoothX = useSpring(mouseX, { stiffness: 300, damping: 20, mass: 0.2 })
+  const smoothY = useSpring(mouseY, { stiffness: 300, damping: 20, mass: 0.2 })
+  
+  const outerX = useSpring(mouseX, { stiffness: 150, damping: 15, mass: 0.5 })
+  const outerY = useSpring(mouseY, { stiffness: 150, damping: 15, mass: 0.5 })
+
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const updateMousePosition = (e) => {
-      setIsVisible(true)
-      setMousePosition({ x: e.clientX, y: e.clientY })
+      if (!isVisible) setIsVisible(true)
+      mouseX.set(e.clientX)
+      mouseY.set(e.clientY)
     }
 
     const handleMouseOver = (e) => {
@@ -72,18 +81,14 @@ export function CustomCursor() {
           height: 32,
           mixBlendMode: "difference",
           pointerEvents: "none",
+          x: outerX,
+          y: outerY,
+          translateX: "-50%",
+          translateY: "-50%"
         }}
         animate={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
           scale: isHovering ? 1.5 : 1,
           opacity: isHovering ? 0 : 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 15,
-          mass: 0.5,
         }}
       />
 
@@ -93,18 +98,14 @@ export function CustomCursor() {
         style={{
           mixBlendMode: "difference",
           pointerEvents: "none",
+          x: smoothX,
+          y: smoothY,
+          translateX: "-50%",
+          translateY: "-50%"
         }}
         animate={{
-          x: mousePosition.x - (isHovering ? 24 : 4),
-          y: mousePosition.y - (isHovering ? 24 : 4),
           width: isHovering ? 48 : 8,
           height: isHovering ? 48 : 8,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 20,
-          mass: 0.2,
         }}
       />
     </>
