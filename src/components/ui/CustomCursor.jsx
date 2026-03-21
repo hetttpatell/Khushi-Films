@@ -5,6 +5,7 @@ export function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 })
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const updateMousePosition = (e) => {
@@ -33,24 +34,33 @@ export function CustomCursor() {
       }
     }
 
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640 || 'ontouchstart' in window)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
     window.addEventListener("mousemove", updateMousePosition)
     window.addEventListener("mouseover", handleMouseOver)
     document.addEventListener("mouseout", handleMouseLeave)
 
     return () => {
+      window.removeEventListener("resize", checkMobile)
       window.removeEventListener("mousemove", updateMousePosition)
       window.removeEventListener("mouseover", handleMouseOver)
       document.removeEventListener("mouseout", handleMouseLeave)
     }
   }, [])
 
-  if (!isVisible) return null
+  if (!isVisible || isMobile) return null
 
   return (
     <>
       <style>{`
-        * {
-          cursor: none !important;
+        @media (min-width: 641px) {
+          * {
+            cursor: none !important;
+          }
         }
       `}</style>
 
