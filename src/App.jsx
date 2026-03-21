@@ -1,64 +1,90 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { NavBar } from './components/ui/TubelightNavbar';
 import { CustomCursor } from './components/ui/CustomCursor';
-import { Home as HomeIcon, User, Briefcase, FileText, Mail } from 'lucide-react';
+import WelcomeScreen from './components/ui/WelcomeScreen';
+import PageTransition from './components/PageTransition';
+import { Home as HomeIcon, User, Briefcase, Mail } from 'lucide-react';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import About from './pages/About';
 import Booking from './pages/Booking';
 import './App.css';
 
-/**
- * ScrollToTop
- * ──────────────────────────────────────────────────────────────────
- * Listens for route changes and instantly snaps the window to the
- * top of the page. Placed *inside* <Router> so it has access to the
- * location context provided by React Router.
- *
- * Why `behavior: 'instant'` instead of `'smooth'`?
- * Smooth scrolling on a full-page-height site (300 vh scroll zones,
- * Lenis running) produces a jarring mid-animation jump. Instant is
- * the right UX here — the new page simply starts at the top.
- */
+/* ── Scroll to top on every route change ─────────────────────── */
 function ScrollToTop() {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [pathname]);
-
   return null;
 }
 
-function App() {
-  const navItems = [
-    { name: 'Home', url: '/', icon: HomeIcon },
-    { name: 'About', url: '/about', icon: User },
-    { name: 'Projects', url: '/projects', icon: Briefcase },
-    { name: 'Contact', url: '/booking', icon: Mail },
-  ];
+/* ── Animated routes ─────────────────────────────────────────── */
+function AnimatedRoutes() {
+  const location = useLocation();
 
   return (
-    <Router>
-      {/* ScrollToTop must live inside Router to access useLocation */}
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/projects" element={<PageTransition><Projects /></PageTransition>} />
+        <Route path="/booking" element={<PageTransition><Booking /></PageTransition>} />
+        <Route path="*" element={<PageTransition><Home /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+const NAV_ITEMS = [
+  { name: 'Home', url: '/', icon: HomeIcon },
+  { name: 'About', url: '/about', icon: User },
+  { name: 'Projects', url: '/projects', icon: Briefcase },
+  { name: 'Contact', url: '/booking', icon: Mail },
+];
+
+/* ── Inner app (needs Router context) ───────────────────────── */
+function AppInner() {
+  const [welcomed, setWelcomed] = useState(
+    () => sessionStorage.getItem('kf_welcomed') === '1'
+  );
+
+  return (
+    <>
+      {/* Welcome screen — fixed z-1000, sits over everything */}
+      <AnimatePresence>
+        {!welcomed && (
+          <WelcomeScreen
+            key="welcome"
+            onComplete={() => {
+              sessionStorage.setItem('kf_welcomed', '1');
+              setWelcomed(true);
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Main site — mounts immediately so HalideHero warms up */}
       <ScrollToTop />
       <main
         className="bg-black min-h-screen text-white antialiased"
         style={{ position: 'relative', zIndex: 0, isolation: 'isolate' }}
       >
         <CustomCursor />
-        <NavBar items={navItems} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
+        <NavBar items={NAV_ITEMS} />
+        <AnimatedRoutes />
       </main>
-    </Router>
+    </>
   );
 }
 
-export default App;
+/* ── Root ────────────────────────────────────────────────────── */
+export default function App() {
+  return (
+    <Router>
+      <AppInner />
+    </Router>
+  );
+}
