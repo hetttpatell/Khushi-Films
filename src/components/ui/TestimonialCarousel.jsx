@@ -72,7 +72,7 @@ export function TestimonialCarousel({ className }) {
     >
       {/* Desktop Layout */}
       <div className="hidden md:flex relative items-center">
-        <div className="w-[470px] h-[470px] rounded-3xl overflow-hidden bg-neutral-200 dark:bg-neutral-800 flex-shrink-0 relative">
+        <div className="w-[470px] h-[470px] rounded-3xl overflow-hidden bg-neutral-800 flex-shrink-0 relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTestimonial.imageUrl}
@@ -92,7 +92,7 @@ export function TestimonialCarousel({ className }) {
           </AnimatePresence>
         </div>
 
-        <div className="bg-white dark:bg-neutral-900 rounded-3xl shadow-2xl p-8 ml-[-80px] z-10 min-w-[300px] flex-1 border border-neutral-100 dark:border-neutral-800 relative">
+        <div className="bg-neutral-900 rounded-3xl shadow-2xl p-8 ml-[-80px] z-10 min-w-[300px] flex-1 border border-neutral-800 relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTestimonial.name}
@@ -102,15 +102,15 @@ export function TestimonialCarousel({ className }) {
               transition={{ duration: 0.4, ease: "easeInOut" }}
             >
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+                <h2 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                   {currentTestimonial.name}
                 </h2>
-                <p className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+                <p className="text-sm font-medium text-neutral-400">
                   {currentTestimonial.title}
                 </p>
               </div>
 
-              <p className="text-neutral-800 dark:text-neutral-200 text-lg leading-relaxed mb-8 italic">
+              <p className="text-neutral-200 text-lg leading-relaxed mb-8 italic">
                 "{currentTestimonial.description}"
               </p>
 
@@ -121,10 +121,10 @@ export function TestimonialCarousel({ className }) {
                     href={url || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-neutral-900 dark:bg-white rounded-full flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
+                    className="w-12 h-12 bg-white rounded-full flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
                     aria-label={label}
                   >
-                    <IconComponent className="w-5 h-5 text-white dark:text-neutral-900" />
+                    <IconComponent className="w-5 h-5 text-neutral-900" />
                   </a>
                 ))}
               </div>
@@ -133,9 +133,8 @@ export function TestimonialCarousel({ className }) {
         </div>
       </div>
 
-      {/* Mobile Layout */}
       <div className="md:hidden w-full max-w-lg mx-auto text-center bg-transparent px-4">
-        <div className="w-full aspect-square bg-neutral-200 dark:bg-neutral-800 rounded-3xl overflow-hidden mb-6 relative">
+        <div className="w-full aspect-square bg-neutral-800 rounded-3xl overflow-hidden mb-6 relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTestimonial.imageUrl}
@@ -164,13 +163,13 @@ export function TestimonialCarousel({ className }) {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
             >
-              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h2 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                 {currentTestimonial.name}
               </h2>
-              <p className="text-sm font-medium text-neutral-600 dark:text-neutral-400 mb-4">
+              <p className="text-sm font-medium text-neutral-400 mb-4">
                 {currentTestimonial.title}
               </p>
-              <p className="text-neutral-800 dark:text-neutral-200 text-base leading-relaxed mb-6 italic">
+              <p className="text-neutral-200 text-base leading-relaxed mb-6 italic">
                 "{currentTestimonial.description}"
               </p>
               <div className="flex justify-center space-x-4">
@@ -180,10 +179,10 @@ export function TestimonialCarousel({ className }) {
                     href={url || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-neutral-900 dark:bg-white rounded-full flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
+                    className="w-12 h-12 bg-white rounded-full flex items-center justify-center transition-transform hover:scale-105 cursor-pointer"
                     aria-label={label}
                   >
-                    <IconComponent className="w-5 h-5 text-white dark:text-neutral-900" />
+                    <IconComponent className="w-5 h-5 text-neutral-900" />
                   </a>
                 ))}
               </div>
@@ -198,9 +197,9 @@ export function TestimonialCarousel({ className }) {
           type="button"
           onClick={handlePrevious}
           aria-label="Previous testimonial"
-          className="w-12 h-12 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 shadow-md flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all active:scale-95 cursor-pointer pointer-events-auto"
+          className="w-12 h-12 rounded-full bg-neutral-900 border border-neutral-700 shadow-md flex items-center justify-center hover:bg-neutral-800 transition-all active:scale-95 cursor-pointer pointer-events-auto"
         >
-          <ChevronLeft className="w-6 h-6 text-neutral-700 dark:text-neutral-300 pointer-events-none" />
+          <ChevronLeft className="w-6 h-6 text-neutral-300 pointer-events-none" />
         </button>
 
         <div className="flex gap-2 z-[70] relative pointer-events-auto">
@@ -212,8 +211,8 @@ export function TestimonialCarousel({ className }) {
               className={cn(
                 "w-3 h-3 rounded-full transition-all cursor-pointer pointer-events-auto",
                 testimonialIndex === currentIndex
-                  ? "bg-neutral-900 dark:bg-white"
-                  : "bg-neutral-400 dark:bg-neutral-600"
+                  ? "bg-white"
+                  : "bg-neutral-600"
               )}
               aria-label={`Go to testimonial ${testimonialIndex + 1}`}
             />
@@ -224,9 +223,9 @@ export function TestimonialCarousel({ className }) {
           type="button"
           onClick={handleNext}
           aria-label="Next testimonial"
-          className="w-12 h-12 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 shadow-md flex items-center justify-center hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all active:scale-95 cursor-pointer pointer-events-auto"
+          className="w-12 h-12 rounded-full bg-neutral-900 border border-neutral-700 shadow-md flex items-center justify-center hover:bg-neutral-800 transition-all active:scale-95 cursor-pointer pointer-events-auto"
         >
-          <ChevronRight className="w-6 h-6 text-neutral-700 dark:text-neutral-300 pointer-events-none" />
+          <ChevronRight className="w-6 h-6 text-neutral-300 pointer-events-none" />
         </button>
       </div>
     </div>

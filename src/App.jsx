@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { NavBar } from './components/ui/TubelightNavbar';
@@ -11,15 +11,6 @@ import Projects from './pages/Projects';
 import About from './pages/About';
 import Booking from './pages/Booking';
 import './App.css';
-
-/* ── Scroll to top on every route change ─────────────────────── */
-function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [pathname]);
-  return null;
-}
 
 /* ── Animated routes ─────────────────────────────────────────── */
 function AnimatedRoutes() {
@@ -67,7 +58,6 @@ function AppInner() {
       </AnimatePresence>
 
       {/* Main site — mounts immediately so HalideHero warms up */}
-      <ScrollToTop />
       <main
         className="bg-black min-h-screen text-white antialiased"
         style={{ position: 'relative', zIndex: 0, isolation: 'isolate' }}

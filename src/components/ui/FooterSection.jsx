@@ -36,7 +36,7 @@ const footerLinks = [
 export function Footer() {
 	return (
 		<div
-			className="w-full bg-white dark:bg-neutral-950 border-t border-neutral-200 dark:border-neutral-800"
+			className="w-full bg-neutral-950 border-t border-neutral-800"
 			style={{
 				pointerEvents: 'auto',
 				position: 'relative',
@@ -50,8 +50,8 @@ export function Footer() {
 			>
 				<div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
 					<AnimatedContainer className="space-y-4">
-						<FrameIcon className="size-8 text-neutral-900 dark:text-white" />
-						<p className="text-neutral-600 dark:text-neutral-400 mt-8 text-sm md:mt-0 font-sans">
+						<FrameIcon className="size-8 text-white" />
+						<p className="text-neutral-400 mt-8 text-sm md:mt-0 font-sans">
 							© {new Date().getFullYear()} Khushi Films. All rights reserved.
 						</p>
 					</AnimatedContainer>
@@ -81,12 +81,12 @@ export function Footer() {
 
 							<AnimatedContainer delay={0.1}>
 								<h3
-									className="text-2xl font-bold mb-4 text-neutral-900 dark:text-white"
+									className="text-2xl font-bold mb-4 text-white"
 									style={{ fontFamily: "var(--font-primary, 'Playfair Display', serif)" }}
 								>
 									Let's Tell Your Story
 								</h3>
-								<p className="text-neutral-600 dark:text-neutral-400 text-sm font-sans max-w-[280px] leading-relaxed">
+								<p className="text-neutral-400 text-sm font-sans max-w-[280px] leading-relaxed">
 									Every love story is beautiful, but yours deserves to be cinematic. Let our lens capture the unscripted magic, the hidden glances, and the joyous tears to craft a timeless masterpiece.
 								</p>
 							</AnimatedContainer>
@@ -96,15 +96,15 @@ export function Footer() {
 						{footerLinks.map((section, index) => (
 							<AnimatedContainer key={section.label} delay={0.3 + index * 0.1}>
 								<div className="mb-10 md:mb-0">
-									<h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-900 dark:text-white">
+									<h3 className="text-xs font-semibold uppercase tracking-wider text-white">
 										{section.label}
 									</h3>
-									<ul className="text-neutral-600 dark:text-neutral-400 mt-4 space-y-2 text-sm font-sans">
+									<ul className="text-neutral-400 mt-4 space-y-2 text-sm font-sans">
 										{section.links.map((link) => (
 											<li key={link.title}>
 												<a
 													href={link.href}
-													className="hover:text-neutral-900 dark:hover:text-white inline-flex items-center transition-all duration-300"
+													className="hover:text-white inline-flex items-center transition-all duration-300"
 												>
 													{link.icon && <link.icon className="me-2 size-4" />}
 													{link.title}
@@ -119,7 +119,7 @@ export function Footer() {
 						<div className="mt-6 md:mt-0 flex items-start md:justify-end">
 							<Link
 								to="/booking"
-								className="px-6 py-3 bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 rounded-lg font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-opacity cursor-pointer whitespace-nowrap"
+								className="px-6 py-3 bg-white text-neutral-900 rounded-lg font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-opacity cursor-pointer whitespace-nowrap"
 								style={{
 									position: 'relative',
 									zIndex: 100,

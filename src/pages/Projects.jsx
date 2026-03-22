@@ -383,24 +383,30 @@ export default function Projects() {
   };
 
   const project1Slides = [
-    { title: "Film Still 1", image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Film Still 2", image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Film Still 3", image: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Film Still 4", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2000&auto=format&fit=crop" },
+    { title: "Film Still 1", image: "/New/compressed_wedding-6.jpg" },
+    { title: "Film Still 2", image: "/New/compressed_wedding-7.jpg" },
+    { title: "Film Still 3", image: "/New/compressed_wedding-8.jpg" },
+    { title: "Film Still 4", image: "/New/compressed_wedding-9.jpg" },
   ];
 
   const project2Slides = [
-    { title: "Wedding 1", image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Wedding 2", image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Wedding 3", image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Wedding 4", image: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2000&auto=format&fit=crop" },
+    { title: "Wedding 1", image: "/New/compressed_babyshower-1.jpg" },
+    { title: "Wedding 2", image: "/New/compressed_babyshower-2.jpg" },
+    { title: "Wedding 3", image: "/New/compressed_babyshower-3.jpg" },
+    { title: "Wedding 4", image: "/New/compressed_babyshower-4.jpg" },
   ];
 
   const project3Slides = [
-    { title: "Commercial 1", image: "https://images.unsplash.com/photo-1590130836511-d1d4d80d2874?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Commercial 2", image: "https://images.unsplash.com/photo-1517404215738-15263e9f9178?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Commercial 3", image: "https://images.unsplash.com/photo-1601506521937-0121a7fc2a6b?q=80&w=2000&auto=format&fit=crop" },
-    { title: "Commercial 4", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop" },
+    { title: "Commercial 1", image: "/New/compressed_concert-5.jpg" },
+    { title: "Commercial 2", image: "/New/compressed_concert-6.jpg" },
+    { title: "Commercial 3", image: "/New/compressed_concert-7.jpg" },
+    { title: "Commercial 4", image: "/New/compressed_concert-8.jpg" },
+  ];
+  const project4Slides = [
+    { title: "Birthday 1", image: "/New/compressed_birthday-1.jpg" },
+    { title: "Birthday 2", image: "/New/compressed_birthday-2.jpg" },
+    { title: "Birthday 3", image: "/New/compressed_birthday-3.jpg" },
+    { title: "Birthday 4", image: "/New/compressed_birthday-4.jpg" },
   ];
 
   const sharedColors = {
@@ -415,7 +421,7 @@ export default function Projects() {
 
   return (
     <div className="min-h-screen pt-32 flex flex-col items-center justify-start text-white bg-black w-full overflow-hidden relative">
-      
+
       {/* Background and Grain */}
       <Grain opacity={0.09} />
       <div className="fixed inset-0 z-0 pointer-events-none">
@@ -516,11 +522,11 @@ export default function Projects() {
         {/* project -  4 */}
         <DicedHeroSection
           topText="Brand Launch Moments"
-          mainText="First Chapter"
+          mainText="Birthdays"
           subMainText="Your grand opening is your first impression — we make it unforgettable on film. Ribbon cuts, speeches, guest arrivals, and the energy of a new chapter, all in one story."
           buttonText="View Gallery"
-          slides={project2Slides}
-          onGridImageClick={(index) => openModal(project2Slides, index)}
+          slides={project4Slides}
+          onGridImageClick={(index) => openModal(project4Slides, index)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -624,7 +630,7 @@ export default function Projects() {
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.7}
               onDragEnd={handleDragEnd}
-              style={{ 
+              style={{
                 position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'grab'
               }}
               whileTap={{ cursor: "grabbing" }}

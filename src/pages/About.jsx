@@ -117,7 +117,7 @@ export default function About() {
           className="absolute inset-0 z-0"
         >
           <img
-            src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1800&auto=format&fit=crop&q=80"
+            src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1800&auto=format&fit=&q=80"
             alt="Cinematic background"
             className="w-full h-full object-cover"
             style={{ filter: 'grayscale(1) brightness(0.25) contrast(1.2)' }}
@@ -218,10 +218,13 @@ export default function About() {
               {/* Main portrait */}
               <div className="relative overflow-hidden" style={{ aspectRatio: '3/4' }}>
                 <img
-                  src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&auto=format&fit=crop&q=80"
+                  src="/New/compressed_Rakesh-3.jpg"
                   alt="Rakesh Patel — Director, Khushi Films"
                   className="w-full h-full object-cover"
-                  style={{ filter: 'grayscale(0.3) contrast(1.1)' }}
+                  style={{
+                    filter: 'grayscale(0.3) contrast(1.1)',
+                    objectPosition: 'center 20%'
+                  }}
                 />
                 {/* Film-grade overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -234,7 +237,7 @@ export default function About() {
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="absolute -bottom-6 -right-6 md:-right-10 bg-black border border-white/10 p-5 backdrop-blur-sm"
+                className="absolute -bottom-4 -right-4 md:-right-6 bg-black border border-white/10 p-5 backdrop-blur-sm"
                 style={{ zIndex: 20 }}
               >
                 <p className="text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Est.</p>
@@ -244,7 +247,7 @@ export default function About() {
 
               {/* Decorative border offset */}
               <div
-                className="absolute -top-4 -left-4 w-full h-full border border-white/8 pointer-events-none"
+                className="absolute -top-2 -left-2 w-full h-full border border-white/10 pointer-events-none"
                 style={{ zIndex: -1 }}
               />
             </div>
@@ -475,36 +478,36 @@ export default function About() {
         </FadeUp>
 
         {/* Asymmetric image grid */}
-        <div className="grid grid-cols-12 gap-3 max-w-7xl mx-auto">
-          <FadeIn delay={0} className="col-span-12 md:col-span-7 row-span-2">
-            <div className="overflow-hidden h-[420px] md:h-[560px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto items-start">
+          <FadeIn delay={0}>
+            <div className="overflow-hidden aspect-[2/3] md:aspect-[3/4] rounded-sm shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1200&auto=format&fit=crop&q=80"
-                alt="On set"
+                src="/New/compressed_Rakesh-1.png"
+                alt="Rakesh Patel on set"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                style={{ filter: 'grayscale(0.2) contrast(1.05)' }}
+                style={{ filter: 'grayscale(0.2) contrast(1.05)', objectPosition: 'center 20%' }}
               />
             </div>
           </FadeIn>
 
-          <FadeIn delay={0.1} className="col-span-6 md:col-span-5">
-            <div className="overflow-hidden h-[200px] md:h-[270px]">
+          <FadeIn delay={0.1} className="md:mt-16">
+            <div className="overflow-hidden aspect-[2/3] md:aspect-[3/4] rounded-sm shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&auto=format&fit=crop&q=80"
-                alt="Equipment"
+                src="/New/compressed_Rakesh-2.jpg"
+                alt="Rakesh Patel portrait"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                style={{ filter: 'grayscale(0.3) contrast(1.05)' }}
+                style={{ filter: 'grayscale(0.3) contrast(1.05)', objectPosition: 'center 15%' }}
               />
             </div>
           </FadeIn>
 
-          <FadeIn delay={0.2} className="col-span-6 md:col-span-5">
-            <div className="overflow-hidden h-[200px] md:h-[270px]">
+          <FadeIn delay={0.2} className="md:-mt-8">
+            <div className="overflow-hidden aspect-[2/3] md:aspect-[3/4] rounded-sm shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&auto=format&fit=crop&q=80"
-                alt="Cinematic frame"
+                src="/New/Rakesh-4.jpeg"
+                alt="Rakesh Patel behind the lens"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                style={{ filter: 'grayscale(0.3) contrast(1.05)' }}
+                style={{ filter: 'grayscale(0.3) contrast(1.05)', objectPosition: 'center 20%' }}
               />
             </div>
           </FadeIn>
