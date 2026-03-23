@@ -408,6 +408,18 @@ export default function Projects() {
     { title: "Birthday 3", image: "/New/compressed_birthday-3.jpg" },
     { title: "Birthday 4", image: "/New/compressed_birthday-4.jpg" },
   ];
+  const modelingSlides = [
+    { title: "Modeling 1", image: "/New/compressed_Rakesh-1.png" },
+    { title: "Modeling 2", image: "/New/compressed_Rakesh-2.jpg" },
+    { title: "Modeling 3", image: "/New/compressed_concert-2.jpg" },
+    { title: "Modeling 4", image: "/New/compressed_concert-3.jpg" },
+  ];
+  const kidsSlides = [
+    { title: "Kids 1", image: "/New/compressed_babyshower-1.jpg" },
+    { title: "Kids 2", image: "/New/compressed_babyshower-2.jpg" },
+    { title: "Kids 3", image: "/New/compressed_birthday-1.jpg" },
+    { title: "Kids 4", image: "/New/compressed_birthday-2.jpg" },
+  ];
 
   const sharedColors = {
     topText: "var(--color-secondary)",
@@ -527,6 +539,60 @@ export default function Projects() {
           buttonText="View Gallery"
           slides={project4Slides}
           onGridImageClick={(index) => openModal(project4Slides, index)}
+          topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
+          mainTextStyle={{
+            fontSize: "clamp(3rem, 6vw, 5rem)",
+            color: "white",
+            fontFamily: "'Playfair Display', serif",
+            fontWeight: 800,
+          }}
+          subMainTextStyle={{ color: sharedColors.subText, fontSize: "1.125rem", opacity: 0.8 }}
+          buttonStyle={{
+            backgroundColor: sharedColors.btnBg,
+            color: sharedColors.btnFg,
+            borderRadius: "2rem",
+            hoverColor: sharedColors.btnHoverBg,
+            hoverForeground: sharedColors.btnHoverFg,
+          }}
+          separatorColor={sharedColors.separator}
+          isRTL={true}
+        />
+
+        {/* Modeling Section - LTR */}
+        <DicedHeroSection
+          topText="Professional Portfolios"
+          mainText="Modeling"
+          subMainText="Sophisticated portfolios that capture your unique essence. From lifestyle to high-fashion, we bring professional direction and cinematic lighting to every shoot."
+          buttonText="See Portfolio"
+          slides={modelingSlides}
+          onGridImageClick={(index) => openModal(modelingSlides, index)}
+          topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
+          mainTextStyle={{
+            fontSize: "clamp(3rem, 6vw, 5rem)",
+            color: "white",
+            fontFamily: "'Playfair Display', serif",
+            fontWeight: 800,
+          }}
+          subMainTextStyle={{ color: sharedColors.subText, fontSize: "1.125rem", opacity: 0.8 }}
+          buttonStyle={{
+            backgroundColor: sharedColors.btnBg,
+            color: sharedColors.btnFg,
+            borderRadius: "2rem",
+            hoverColor: sharedColors.btnHoverBg,
+            hoverForeground: sharedColors.btnHoverFg,
+          }}
+          separatorColor={sharedColors.separator}
+          isRTL={false}
+        />
+
+        {/* Kids Photography - RTL */}
+        <DicedHeroSection
+          topText="Pure Joy & Innocence"
+          mainText="Kids Photography"
+          subMainText="Capturing the wonder of childhood. From first milestones to grand birthday celebrations, we turn fleeting moments into lifelong treasures with warmth and creativity."
+          buttonText="View Gallery"
+          slides={kidsSlides}
+          onGridImageClick={(index) => openModal(kidsSlides, index)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",

@@ -116,6 +116,66 @@ export function PortfolioTimeline() {
         </div>
       ),
     },
+    {
+      title: "Modeling",
+      content: (
+        <div>
+          <p className="text-neutral-200 text-xs md:text-sm font-normal mb-8">
+            Sophisticated portfolios that capture your unique essence. From 
+            lifestyle to high-fashion, we bring professional direction and 
+            cinematic lighting to every shoot, ensuring you stand out.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <StoryImage
+              src="/New/compressed_Rakesh-1.png"
+              alt="Modeling portfolio"
+            />
+            <StoryImage
+              src="/New/compressed_Rakesh-2.jpg"
+              alt="Studio session"
+            />
+            <StoryImage
+              src="/New/compressed_concert-2.jpg"
+              alt="Fashion shoot"
+            />
+            <StoryImage
+              src="/New/compressed_concert-3.jpg"
+              alt="Lifestyle portrait"
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Kids Photography",
+      content: (
+        <div>
+          <p className="text-neutral-200 text-xs md:text-sm font-normal mb-8">
+            Capturing the pure joy and innocence of childhood. From first 
+            milestones to grand birthday celebrations, we turn fleeting 
+            moments into lifelong treasures with warmth and creativity.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <StoryImage
+              src="/New/compressed_babyshower-1.jpg"
+              alt="Baby milestone"
+            />
+            <StoryImage
+              src="/New/compressed_babyshower-2.jpg"
+              alt="Kid portrait"
+            />
+            <StoryImage
+              src="/New/compressed_birthday-1.jpg"
+              alt="Birthday celebration"
+            />
+            <StoryImage
+              src="/New/compressed_birthday-2.jpg"
+              alt="Playful moment"
+            />
+          </div>
+        </div>
+      ),
+    },
   ];
 
   return (
