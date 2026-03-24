@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Footer } from '../components/ui/FooterSection';
 import { ProjectsCTA } from '../components/ui/ProjectsCTA';
+import { ProjectGalleryModal } from '../components/ui/ProjectGalleryModal';
 
 // --- ChronicleButton Component ---
 const buttonStyles = `
@@ -218,8 +219,6 @@ const DicedHeroSection = ({
             </span>
           </motion.h2>
 
-          {/* Separator removed per user request */}
-
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -289,14 +288,14 @@ const DicedHeroSection = ({
               style={{
                 position: 'relative',
                 width: '100%',
-                paddingBottom: '100%', // Makes it a perfect square
+                paddingBottom: '100%',
                 overflow: 'hidden',
-                borderRadius: '16px', // Standard rounded corners for images without the warped clipping
+                borderRadius: '16px',
                 boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
               }}
             >
               <img
-                src={slide.image}
+                src={slide.image || slide.url}
                 alt={slide.title}
                 style={{
                   position: 'absolute',
@@ -316,6 +315,7 @@ const DicedHeroSection = ({
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
                 onClick={() => onGridImageClick && onGridImageClick(index)}
+                data-cursor="media"
               />
             </motion.div>
           ))}
@@ -348,84 +348,86 @@ function Grain({ opacity = 0.07 }) {
 // --- Main Projects Page ---
 
 export default function Projects() {
-  const [modalData, setModalData] = useState({ isOpen: false, slides: [], currentIndex: 0 });
-  const [direction, setDirection] = useState(0);
+  const [galleryModal, setGalleryModal] = useState({
+    isOpen: false,
+    items: [],
+    title: ""
+  });
 
-  const openModal = (slides, index) => {
-    setDirection(0);
-    setModalData({ isOpen: true, slides, currentIndex: index });
+  const openGallery = (title, items) => {
+    setGalleryModal({ isOpen: true, items, title });
   };
 
-  const closeModal = () => {
-    setModalData(prev => ({ ...prev, isOpen: false }));
+  const closeGallery = () => {
+    setGalleryModal(prev => ({ ...prev, isOpen: false }));
   };
 
-  const nextSlide = (e) => {
-    if (e) e.stopPropagation();
-    setDirection(1);
-    setModalData(prev => ({ ...prev, currentIndex: (prev.currentIndex + 1) % prev.slides.length }));
-  };
+  // --- Project Data ---
 
-  const prevSlide = (e) => {
-    if (e) e.stopPropagation();
-    setDirection(-1);
-    setModalData(prev => ({ ...prev, currentIndex: (prev.currentIndex - 1 + prev.slides.length) % prev.slides.length }));
-  };
-
-  const handleDragEnd = (e, { offset, velocity }) => {
-    if (e) e.stopPropagation();
-    const swipe = offset.x;
-    if (swipe < -60) {
-      nextSlide();
-    } else if (swipe > 60) {
-      prevSlide();
-    }
-  };
-
-  const project1Slides = [
-    { title: "Film Still 1", image: "/New/compressed_wedding-6.jpg" },
-    { title: "Film Still 2", image: "/New/compressed_wedding-7.jpg" },
-    { title: "Film Still 3", image: "/New/compressed_wedding-8.jpg" },
-    { title: "Film Still 4", image: "/New/compressed_wedding-9.jpg" },
+  const weddingGallery = [
+    { type: 'video', url: '/New/compressed_wedding-1.jpg', thumbnail: '/New/compressed_wedding-6.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-1.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-2.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-3.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-4.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-5.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-6.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-7.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-8.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-9.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-10.jpg' },
   ];
 
-  const project2Slides = [
-    { title: "Wedding 1", image: "/New/compressed_babyshower-1.jpg" },
-    { title: "Wedding 2", image: "/New/compressed_babyshower-2.jpg" },
-    { title: "Wedding 3", image: "/New/compressed_babyshower-3.jpg" },
-    { title: "Wedding 4", image: "/New/compressed_babyshower-4.jpg" },
+  const babyGallery = [
+    { type: 'video', url: 'https://www.w3schools.com/html/mov_bbb.mp4', thumbnail: '/New/compressed_babyshower-1.jpg' },
+    { type: 'image', url: '/New/compressed_babyshower-1.jpg' },
+    { type: 'image', url: '/New/compressed_babyshower-2.jpg' },
+    { type: 'image', url: '/New/compressed_babyshower-3.jpg' },
+    { type: 'image', url: '/New/compressed_babyshower-4.jpg' },
+    { type: 'image', url: '/New/compressed_babyshower-5.jpg' },
+    { type: 'image', url: '/New/compressed_babyshower-6.jpg' },
   ];
 
-  const project3Slides = [
-    { title: "Commercial 1", image: "/New/compressed_concert-5.jpg" },
-    { title: "Commercial 2", image: "/New/compressed_concert-6.jpg" },
-    { title: "Commercial 3", image: "/New/compressed_concert-7.jpg" },
-    { title: "Commercial 4", image: "/New/compressed_concert-8.jpg" },
+  const concertGallery = [
+    { type: 'video', url: 'https://www.w3schools.com/html/movie.mp4', thumbnail: '/New/compressed_concert-5.jpg' },
+    { type: 'image', url: '/New/compressed_concert-1.jpg' },
+    { type: 'image', url: '/New/compressed_concert-2.jpg' },
+    { type: 'image', url: '/New/compressed_concert-3.jpg' },
+    { type: 'image', url: '/New/compressed_concert-4.jpg' },
+    { type: 'image', url: '/New/compressed_concert-5.jpg' },
+    { type: 'image', url: '/New/compressed_concert-6.jpg' },
+    { type: 'image', url: '/New/compressed_concert-7.jpg' },
+    { type: 'image', url: '/New/compressed_concert-8.jpg' },
   ];
-  const project4Slides = [
-    { title: "Birthday 1", image: "/New/compressed_birthday-1.jpg" },
-    { title: "Birthday 2", image: "/New/compressed_birthday-2.jpg" },
-    { title: "Birthday 3", image: "/New/compressed_birthday-3.jpg" },
-    { title: "Birthday 4", image: "/New/compressed_birthday-4.jpg" },
+
+  const birthdayGallery = [
+    { type: 'image', url: '/New/compressed_birthday-1.jpg' },
+    { type: 'image', url: '/New/compressed_birthday-2.jpg' },
+    { type: 'image', url: '/New/compressed_birthday-3.jpg' },
+    { type: 'image', url: '/New/compressed_birthday-4.jpg' },
+    { type: 'image', url: '/New/compressed_opening-1.jpg' },
+    { type: 'image', url: '/New/compressed_opening-2.jpg' },
   ];
-  const modelingSlides = [
-    { title: "Modeling 1", image: "/New/compressed_Rakesh-1.png" },
-    { title: "Modeling 2", image: "/New/compressed_Rakesh-2.jpg" },
-    { title: "Modeling 3", image: "/New/compressed_concert-2.jpg" },
-    { title: "Modeling 4", image: "/New/compressed_concert-3.jpg" },
+
+  const modelingGallery = [
+    { type: 'image', url: '/New/compressed_Rakesh-1.png' },
+    { type: 'image', url: '/New/compressed_Rakesh-2.jpg' },
+    { type: 'image', url: '/New/compressed_Rakesh-3.jpg' },
+    { type: 'image', url: '/New/Rakesh-4.jpeg' },
   ];
-  const kidsSlides = [
-    { title: "Kids 1", image: "/New/compressed_babyshower-1.jpg" },
-    { title: "Kids 2", image: "/New/compressed_babyshower-2.jpg" },
-    { title: "Kids 3", image: "/New/compressed_birthday-1.jpg" },
-    { title: "Kids 4", image: "/New/compressed_birthday-2.jpg" },
+
+  const kidsGallery = [
+    { type: 'image', url: '/New/compressed_babyshower-1.jpg' },
+    { type: 'image', url: '/New/compressed_babyshower-2.jpg' },
+    { type: 'image', url: '/New/compressed_birthday-1.jpg' },
+    { type: 'image', url: '/New/compressed_birthday-2.jpg' },
   ];
 
   const sharedColors = {
     topText: "var(--color-secondary)",
     subText: "var(--color-text-light)",
     separator: "transparent",
-    btnBg: "#e5e7eb", // Light grey
+    btnBg: "#e5e7eb",
     btnFg: "#000000",
     btnHoverBg: "#ffffff",
     btnHoverFg: "#000000",
@@ -434,7 +436,6 @@ export default function Projects() {
   return (
     <div className="min-h-screen pt-32 flex flex-col items-center justify-start text-white bg-black w-full overflow-hidden relative">
 
-      {/* Background and Grain */}
       <Grain opacity={0.09} />
       <div className="fixed inset-0 z-0 pointer-events-none">
         <img
@@ -446,19 +447,21 @@ export default function Projects() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black" />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/60" />
       </div>
+
       <h1 className="text-5xl md:text-7xl font-bold mb-10 text-center text-white drop-shadow-md" style={{ fontFamily: "'Playfair Display', serif", zIndex: 10, position: 'relative' }}>
         Projects
       </h1>
 
       <div className="w-full flex flex-col gap-24 md:gap-32 mt-10 pb-24">
-        {/* Project 1 - LTR */}
+        {/* Project 1 - Weddings */}
         <DicedHeroSection
           topText="Cinematic Wedding Films"
           mainText="Weddings"
           subMainText="From the first look to the last dance — we craft emotional, cinematic wedding films that capture every unscripted moment, tear, and laugh your day has to offer."
           buttonText="Watch Films"
-          slides={project1Slides}
-          onGridImageClick={(index) => openModal(project1Slides, index)}
+          slides={weddingGallery}
+          onMainButtonClick={() => openGallery("Wedding Films", weddingGallery)}
+          onGridImageClick={() => openGallery("Wedding Films", weddingGallery)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -478,14 +481,15 @@ export default function Projects() {
           isRTL={false}
         />
 
-        {/* Project 2 - RTL (Reversed Layout) */}
+        {/* Project 2 - New Beginnings */}
         <DicedHeroSection
           topText="Precious Milestones"
           mainText="New Beginnings"
           subMainText="The anticipation, the joy, the love in the room — we document the arrival of your little one with warmth and intimacy, so these memories live on for generations."
           buttonText="View Gallery"
-          slides={project2Slides}
-          onGridImageClick={(index) => openModal(project2Slides, index)}
+          slides={babyGallery}
+          onMainButtonClick={() => openGallery("New Beginnings Gallery", babyGallery)}
+          onGridImageClick={() => openGallery("New Beginnings Gallery", babyGallery)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -505,14 +509,15 @@ export default function Projects() {
           isRTL={true}
         />
 
-        {/* Project 3 - LTR */}
+        {/* Project 3 - Concerts */}
         <DicedHeroSection
           topText="Live Event Coverage"
           mainText="Concerts"
           subMainText="High-energy, multi-camera concert coverage that captures the electric atmosphere on stage and in the crowd. Every beat, every light, every crowd moment — preserved."
           buttonText="See Gallery"
-          slides={project3Slides}
-          onGridImageClick={(index) => openModal(project3Slides, index)}
+          slides={concertGallery}
+          onMainButtonClick={() => openGallery("Concert Gallery", concertGallery)}
+          onGridImageClick={() => openGallery("Concert Gallery", concertGallery)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -531,14 +536,16 @@ export default function Projects() {
           separatorColor={sharedColors.separator}
           isRTL={false}
         />
-        {/* project -  4 */}
+
+        {/* Project 4 - Birthdays */}
         <DicedHeroSection
           topText="Brand Launch Moments"
           mainText="Birthdays"
           subMainText="Your grand opening is your first impression — we make it unforgettable on film. Ribbon cuts, speeches, guest arrivals, and the energy of a new chapter, all in one story."
           buttonText="View Gallery"
-          slides={project4Slides}
-          onGridImageClick={(index) => openModal(project4Slides, index)}
+          slides={birthdayGallery}
+          onMainButtonClick={() => openGallery("Birthday Gallery", birthdayGallery)}
+          onGridImageClick={() => openGallery("Birthday Gallery", birthdayGallery)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -558,14 +565,15 @@ export default function Projects() {
           isRTL={true}
         />
 
-        {/* Modeling Section - LTR */}
+        {/* Modeling Section */}
         <DicedHeroSection
           topText="Professional Portfolios"
           mainText="Modeling"
           subMainText="Sophisticated portfolios that capture your unique essence. From lifestyle to high-fashion, we bring professional direction and cinematic lighting to every shoot."
           buttonText="See Portfolio"
-          slides={modelingSlides}
-          onGridImageClick={(index) => openModal(modelingSlides, index)}
+          slides={modelingGallery}
+          onMainButtonClick={() => openGallery("Modeling Portfolio", modelingGallery)}
+          onGridImageClick={() => openGallery("Modeling Portfolio", modelingGallery)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -585,14 +593,15 @@ export default function Projects() {
           isRTL={false}
         />
 
-        {/* Kids Photography - RTL */}
+        {/* Kids Photography */}
         <DicedHeroSection
           topText="Pure Joy & Innocence"
           mainText="Kids Photography"
           subMainText="Capturing the wonder of childhood. From first milestones to grand birthday celebrations, we turn fleeting moments into lifelong treasures with warmth and creativity."
           buttonText="View Gallery"
-          slides={kidsSlides}
-          onGridImageClick={(index) => openModal(kidsSlides, index)}
+          slides={kidsGallery}
+          onMainButtonClick={() => openGallery("Kids Gallery", kidsGallery)}
+          onGridImageClick={() => openGallery("Kids Gallery", kidsGallery)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -613,114 +622,19 @@ export default function Projects() {
         />
       </div>
 
-      {/* Embedded Simple CTA block before Footer */}
       <ProjectsCTA />
 
       <div className="w-full mt-auto">
         <Footer />
       </div>
 
-      {/* Fullscreen Photo Modal */}
-      <AnimatePresence>
-        {modalData.isOpen && modalData.slides.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={closeModal}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
-              backgroundColor: 'rgba(0, 0, 0, 0.95)',
-              zIndex: 9990,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '2rem',
-              backdropFilter: 'blur(10px)',
-              overflow: 'hidden',
-              touchAction: 'none' // Prevent pull-to-refresh on mobile
-            }}
-          >
-            <style>{`
-              .lb-btn {
-                position: fixed;
-                background: rgba(255,255,255,0.05);
-                border: 1px solid rgba(255,255,255,0.15);
-                color: white;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                z-index: 10;
-                transition: all 0.3s ease;
-                backdrop-filter: blur(4px);
-                user-select: none;
-              }
-              .lb-btn:hover { background: white; color: black; }
-              .lb-close { top: 2rem; right: 2rem; width: 44px; height: 44px; font-size: 1.2rem; }
-              .lb-nav { top: 50%; transform: translateY(-50%); width: 54px; height: 54px; font-size: 2rem; }
-              .lb-prev { left: 2rem; }
-              .lb-next { right: 2rem; }
-              .lb-counter {
-                margin-top: 1.5rem; color: rgba(255,255,255,0.8); font-size: 1rem; letter-spacing: 0.1em;
-                text-transform: uppercase; font-weight: 600; font-family: var(--font-primary);
-                background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px;
-                backdrop-filter: blur(6px); pointer-events: none;
-              }
-              @media (max-width: 768px) {
-                .lb-close { top: 1rem; right: 1rem; width: 36px; height: 36px; font-size: 1rem; }
-                .lb-nav { width: 40px; height: 40px; font-size: 1.5rem; }
-                .lb-prev { left: 0.5rem; }
-                .lb-next { right: 0.5rem; }
-                .lb-counter { margin-top: 1rem; font-size: 0.85rem; padding: 6px 12px; }
-              }
-            `}</style>
-
-            <button className="lb-btn lb-close" onClick={closeModal}>✕</button>
-            <button className="lb-btn lb-nav lb-prev" onClick={prevSlide}>‹</button>
-            <button className="lb-btn lb-nav lb-next" onClick={nextSlide}>›</button>
-
-            <motion.div
-              key={modalData.currentIndex}
-              initial={{ opacity: 0, x: direction * 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction * -50 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.7}
-              onDragEnd={handleDragEnd}
-              style={{
-                position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'grab'
-              }}
-              whileTap={{ cursor: "grabbing" }}
-              onClick={(e) => e.stopPropagation()} // Prevent modal close when tapping image
-            >
-              <img
-                src={modalData.slides[modalData.currentIndex].image}
-                alt="Fullscreen Preview"
-                style={{
-                  maxHeight: '80vh',
-                  maxWidth: '100%',
-                  objectFit: 'contain',
-                  borderRadius: '12px',
-                  pointerEvents: 'none', // Critical for framer-motion drag on images
-                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
-                }}
-              />
-              <div className="lb-counter">
-                {modalData.currentIndex + 1} / {modalData.slides.length}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Modern Gallery Modal */}
+      <ProjectGalleryModal
+        isOpen={galleryModal.isOpen}
+        onClose={closeGallery}
+        title={galleryModal.title}
+        items={galleryModal.items}
+      />
     </div>
   );
 }

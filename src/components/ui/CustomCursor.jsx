@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { motion, useMotionValue, useSpring } from "framer-motion"
+import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion"
 
 export function CustomCursor() {
   const mouseX = useMotionValue(-100)
@@ -11,7 +11,7 @@ export function CustomCursor() {
   const outerX = useSpring(mouseX, { stiffness: 150, damping: 15, mass: 0.5 })
   const outerY = useSpring(mouseY, { stiffness: 150, damping: 15, mass: 0.5 })
 
-  const [isHovering, setIsHovering] = useState(false)
+  const [hoverType, setHoverType] = useState('none') // 'none', 'link', 'media'
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -24,16 +24,20 @@ export function CustomCursor() {
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      if (
+      const mediaTarget = target.closest('[data-cursor="media"]');
+      
+      if (mediaTarget) {
+        setHoverType('media');
+      } else if (
         target.tagName.toLowerCase() === 'a' ||
         target.tagName.toLowerCase() === 'button' ||
         target.closest('a') ||
         target.closest('button') ||
         window.getComputedStyle(target).cursor === 'pointer'
       ) {
-        setIsHovering(true)
+        setHoverType('link');
       } else {
-        setIsHovering(false)
+        setHoverType('none');
       }
     }
 
@@ -59,9 +63,11 @@ export function CustomCursor() {
       window.removeEventListener("mouseover", handleMouseOver)
       document.removeEventListener("mouseout", handleMouseLeave)
     }
-  }, [])
+  }, [isVisible])
 
   if (!isVisible || isMobile) return null
+
+  const isHovering = hoverType !== 'none';
 
   return (
     <>
@@ -75,39 +81,55 @@ export function CustomCursor() {
 
       {/* Outer outline ring */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-white/50"
+        className="fixed top-0 left-0 pointer-events-none z-[99999] rounded-full border border-white/30"
         style={{
           width: 32,
           height: 32,
-          mixBlendMode: "difference",
-          pointerEvents: "none",
+          mixBlendMode: hoverType === 'media' ? "normal" : "difference",
           x: outerX,
           y: outerY,
           translateX: "-50%",
           translateY: "-50%"
         }}
         animate={{
-          scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0 : 1,
+          scale: hoverType === 'media' ? 1.8 : hoverType === 'link' ? 1.5 : 1,
+          opacity: hoverType === 'media' ? 1 : isHovering ? 0 : 1,
+          borderColor: hoverType === 'media' ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.5)",
+          backgroundColor: hoverType === 'media' ? "rgba(255,255,255,0.1)" : "transparent",
         }}
       />
 
-      {/* Inner solid dot */}
+      {/* Inner solid dot / Lens label */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[10000] rounded-full bg-white"
+        className="fixed top-0 left-0 pointer-events-none z-[100000] rounded-full flex items-center justify-center overflow-hidden"
         style={{
-          mixBlendMode: "difference",
-          pointerEvents: "none",
+          mixBlendMode: hoverType === 'media' ? "normal" : "difference",
           x: smoothX,
           y: smoothY,
           translateX: "-50%",
-          translateY: "-50%"
+          translateY: "-50%",
+          backgroundColor: hoverType === 'media' ? "white" : "white",
         }}
         animate={{
-          width: isHovering ? 48 : 8,
-          height: isHovering ? 48 : 8,
+          width: hoverType === 'media' ? 40 : hoverType === 'link' ? 40 : 8,
+          height: hoverType === 'media' ? 40 : hoverType === 'link' ? 40 : 8,
+          color: hoverType === 'media' ? "black" : "white",
         }}
-      />
+      >
+        <AnimatePresence>
+          {hoverType === 'media' && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              className="text-[8px] font-black tracking-widest uppercase"
+            >
+              View
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </>
   )
 }
+
