@@ -26,9 +26,9 @@ const footerLinks = [
 		label: 'Social Links',
 		links: [
 			{ title: 'Facebook', href: '#', icon: FacebookIcon },
-			{ title: 'Instagram', href: '#', icon: InstagramIcon },
-			{ title: 'Youtube', href: '#', icon: YoutubeIcon },
-			{ title: 'LinkedIn', href: '#', icon: LinkedinIcon },
+			{ title: 'Instagram', href: 'https://www.instagram.com/khushi_films_usa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D', icon: InstagramIcon },
+			{ title: 'Youtube', href: 'https://youtube.com/@khushifilms-r5e?si=yzkO1ZJYo6J9dpO9', icon: YoutubeIcon },
+			// { title: 'LinkedIn', href: '#', icon: LinkedinIcon },
 		],
 	},
 ];

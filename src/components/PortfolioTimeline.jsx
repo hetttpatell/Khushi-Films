@@ -32,7 +32,7 @@ export function PortfolioTimeline() {
         <div>
           <p className="text-neutral-200 text-xs md:text-sm font-normal mb-8">
             Capturing the Essence of Your Love Story. From the grand palaces of
-            Rajasthan to intimate beach vows, we create cinematic masterpieces 
+            Rajasthan to intimate beach vows, we create cinematic masterpieces
             that turn your fleeting moments into eternal memories.
           </p>
           <div className="grid grid-cols-2 gap-4">
@@ -61,8 +61,8 @@ export function PortfolioTimeline() {
       content: (
         <div>
           <p className="text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Feel the Pulse of Every Beat. Bringing the electric energy of the 
-            stage to the screen with high-octane visuals and soul-stirring 
+            Feel the Pulse of Every Beat. Bringing the electric energy of the
+            stage to the screen with high-octane visuals and soul-stirring
             performances captured across global arenas.
           </p>
           <div className="grid grid-cols-2 gap-4">
@@ -91,8 +91,8 @@ export function PortfolioTimeline() {
       content: (
         <div>
           <p className="text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Launching Legacies with Unrivaled Grandeur. Documenting prestige, 
-            style, and the excitement of new beginnings at every major 
+            Launching Legacies with Unrivaled Grandeur. Documenting prestige,
+            style, and the excitement of new beginnings at every major
             launch, ensuring your story starts with a cinematic bang.
           </p>
           <div className="grid grid-cols-2 gap-4">
@@ -121,25 +121,25 @@ export function PortfolioTimeline() {
       content: (
         <div>
           <p className="text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Sophisticated portfolios that capture your unique essence. From 
-            lifestyle to high-fashion, we bring professional direction and 
+            Sophisticated portfolios that capture your unique essence. From
+            lifestyle to high-fashion, we bring professional direction and
             cinematic lighting to every shoot, ensuring you stand out.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <StoryImage
-              src="/New/compressed_Rakesh-1.png"
+              src="/New/model-1.jpg"
               alt="Modeling portfolio"
             />
             <StoryImage
-              src="/New/compressed_Rakesh-2.jpg"
+              src="/New/model-2.jpg"
               alt="Studio session"
             />
             <StoryImage
-              src="/New/compressed_concert-2.jpg"
+              src="/New/model-3.jpg"
               alt="Fashion shoot"
             />
             <StoryImage
-              src="/New/compressed_concert-3.jpg"
+              src="/New/model-5.jpg"
               alt="Lifestyle portrait"
             />
           </div>
@@ -151,25 +151,25 @@ export function PortfolioTimeline() {
       content: (
         <div>
           <p className="text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Capturing the pure joy and innocence of childhood. From first 
-            milestones to grand birthday celebrations, we turn fleeting 
+            Capturing the pure joy and innocence of childhood. From first
+            milestones to grand birthday celebrations, we turn fleeting
             moments into lifelong treasures with warmth and creativity.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <StoryImage
-              src="/New/compressed_babyshower-1.jpg"
+              src="/New/birthday-1.jpg"
               alt="Baby milestone"
             />
             <StoryImage
-              src="/New/compressed_babyshower-2.jpg"
+              src="/New/birthday-2.jpg"
               alt="Kid portrait"
             />
             <StoryImage
-              src="/New/compressed_birthday-1.jpg"
+              src="/New/birthday-3.jpg"
               alt="Birthday celebration"
             />
             <StoryImage
-              src="/New/compressed_birthday-2.jpg"
+              src="/New/compressed_birthday-3.jpg"
               alt="Playful moment"
             />
           </div>

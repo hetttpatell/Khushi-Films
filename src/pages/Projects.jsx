@@ -365,39 +365,26 @@ export default function Projects() {
   // --- Project Data ---
 
   const weddingGallery = [
-    { type: 'video', url: '/New/compressed_wedding-1.jpg', thumbnail: '/New/compressed_wedding-6.jpg' },
     { type: 'image', url: '/New/compressed_wedding-1.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-2.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-3.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-4.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-5.jpg' },
     { type: 'image', url: '/New/compressed_wedding-6.jpg' },
     { type: 'image', url: '/New/compressed_wedding-7.jpg' },
     { type: 'image', url: '/New/compressed_wedding-8.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-9.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-10.jpg' },
   ];
 
   const babyGallery = [
-    { type: 'video', url: 'https://www.w3schools.com/html/mov_bbb.mp4', thumbnail: '/New/compressed_babyshower-1.jpg' },
     { type: 'image', url: '/New/compressed_babyshower-1.jpg' },
-    { type: 'image', url: '/New/compressed_babyshower-2.jpg' },
     { type: 'image', url: '/New/compressed_babyshower-3.jpg' },
-    { type: 'image', url: '/New/compressed_babyshower-4.jpg' },
-    { type: 'image', url: '/New/compressed_babyshower-5.jpg' },
-    { type: 'image', url: '/New/compressed_babyshower-6.jpg' },
+    { type: 'image', url: '/New/babyshower-5.jpg' },
+    { type: 'image', url: '/New/babyshower-3.jpg' },
   ];
 
   const concertGallery = [
-    { type: 'video', url: 'https://www.w3schools.com/html/movie.mp4', thumbnail: '/New/compressed_concert-5.jpg' },
     { type: 'image', url: '/New/compressed_concert-1.jpg' },
     { type: 'image', url: '/New/compressed_concert-2.jpg' },
     { type: 'image', url: '/New/compressed_concert-3.jpg' },
     { type: 'image', url: '/New/compressed_concert-4.jpg' },
-    { type: 'image', url: '/New/compressed_concert-5.jpg' },
-    { type: 'image', url: '/New/compressed_concert-6.jpg' },
-    { type: 'image', url: '/New/compressed_concert-7.jpg' },
-    { type: 'image', url: '/New/compressed_concert-8.jpg' },
+
+
   ];
 
   const birthdayGallery = [
@@ -405,22 +392,22 @@ export default function Projects() {
     { type: 'image', url: '/New/compressed_birthday-2.jpg' },
     { type: 'image', url: '/New/compressed_birthday-3.jpg' },
     { type: 'image', url: '/New/compressed_birthday-4.jpg' },
-    { type: 'image', url: '/New/compressed_opening-1.jpg' },
-    { type: 'image', url: '/New/compressed_opening-2.jpg' },
+
   ];
 
   const modelingGallery = [
-    { type: 'image', url: '/New/compressed_Rakesh-1.png' },
-    { type: 'image', url: '/New/compressed_Rakesh-2.jpg' },
-    { type: 'image', url: '/New/compressed_Rakesh-3.jpg' },
-    { type: 'image', url: '/New/Rakesh-4.jpeg' },
+    { type: 'image', url: '/New/model-1.jpg' },
+    { type: 'image', url: '/New/model-2.jpg' },
+    { type: 'image', url: '/New/model-3.jpg' },
+    { type: 'image', url: '/New/model-11.jpg' },
+
   ];
 
   const kidsGallery = [
-    { type: 'image', url: '/New/compressed_babyshower-1.jpg' },
-    { type: 'image', url: '/New/compressed_babyshower-2.jpg' },
-    { type: 'image', url: '/New/compressed_birthday-1.jpg' },
-    { type: 'image', url: '/New/compressed_birthday-2.jpg' },
+    { type: 'image', url: '/New/birthday-1.jpg' },
+    { type: 'image', url: '/New/birthday-2.jpg' },
+    { type: 'image', url: '/New/birthday-3.jpg' },
+    { type: 'image', url: '/New/birthday-4.jfif' },
   ];
 
   const sharedColors = {
