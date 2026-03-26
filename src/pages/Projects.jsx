@@ -362,6 +362,25 @@ export default function Projects() {
     setGalleryModal(prev => ({ ...prev, isOpen: false }));
   };
 
+  // --- External Links ---
+  // Add your Dropbox or external links here. If provided, the button will redirect to the link.
+  const galleryLinks = {
+    wedding: "https://www.dropbox.com/scl/fo/rju5ewi1enp3qzpwaud24/AAWzcu2e3bhwkSL_V_4uTKI?rlkey=zkgqlay6u5xq55hao0g27x4vb&st=gz3hdbay&dl=0", // e.g., "https://www.dropbox.com/scl/fo/..."
+    baby: "https://www.dropbox.com/scl/fo/uff7kbs6ii4qi49bp3bnc/AB7RHwPyhc7Wmo13k-l35z8?rlkey=ev0qde6qhckb358kc0nrnun3n&st=kygr0v3o&dl=0",
+    concert: "",
+    birthday: "https://www.dropbox.com/scl/fo/i2z7hhjoaxelg3upyfkws/ANqjSnOIQKGZ4ITwqgOd8ME?rlkey=kyt5sg4sr521mn8813yyj3tio&st=y6kmxzo2&dl=0",
+    modeling: "https://www.dropbox.com/scl/fo/g46255ht0u4quk6tuyac4/AMfQfZ7K-Ab9A9erjUICPys?rlkey=cvq4o0rwccd98z4ntnsalaxfa&st=emq63tx6&dl=0",
+    kids: ""
+  };
+
+  const handleOpenGallery = (title, items, link) => {
+    if (link) {
+      window.open(link, '_blank', 'noopener,noreferrer');
+    } else {
+      openGallery(title, items);
+    }
+  };
+
   // --- Project Data ---
 
   const weddingGallery = [
@@ -383,7 +402,10 @@ export default function Projects() {
     { type: 'image', url: '/New/compressed_concert-2.jpg' },
     { type: 'image', url: '/New/compressed_concert-3.jpg' },
     { type: 'image', url: '/New/compressed_concert-4.jpg' },
-
+    { type: 'image', url: '/New/compressed_concert-5.jpg' },
+    { type: 'image', url: '/New/compressed_concert-6.jpg' },
+    { type: 'image', url: '/New/compressed_concert-7.jpg' },
+    { type: 'image', url: '/New/compressed_concert-8.jpg' },
 
   ];
 
@@ -447,8 +469,8 @@ export default function Projects() {
           subMainText="From the first look to the last dance — we craft emotional, cinematic wedding films that capture every unscripted moment, tear, and laugh your day has to offer."
           buttonText="Watch Films"
           slides={weddingGallery}
-          onMainButtonClick={() => openGallery("Wedding Films", weddingGallery)}
-          onGridImageClick={() => openGallery("Wedding Films", weddingGallery)}
+          onMainButtonClick={() => handleOpenGallery("Wedding Films", weddingGallery, galleryLinks.wedding)}
+          onGridImageClick={() => handleOpenGallery("Wedding Films", weddingGallery, galleryLinks.wedding)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -475,8 +497,8 @@ export default function Projects() {
           subMainText="The anticipation, the joy, the love in the room — we document the arrival of your little one with warmth and intimacy, so these memories live on for generations."
           buttonText="View Gallery"
           slides={babyGallery}
-          onMainButtonClick={() => openGallery("New Beginnings Gallery", babyGallery)}
-          onGridImageClick={() => openGallery("New Beginnings Gallery", babyGallery)}
+          onMainButtonClick={() => handleOpenGallery("New Beginnings Gallery", babyGallery, galleryLinks.baby)}
+          onGridImageClick={() => handleOpenGallery("New Beginnings Gallery", babyGallery, galleryLinks.baby)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -503,8 +525,8 @@ export default function Projects() {
           subMainText="High-energy, multi-camera concert coverage that captures the electric atmosphere on stage and in the crowd. Every beat, every light, every crowd moment — preserved."
           buttonText="See Gallery"
           slides={concertGallery}
-          onMainButtonClick={() => openGallery("Concert Gallery", concertGallery)}
-          onGridImageClick={() => openGallery("Concert Gallery", concertGallery)}
+          onMainButtonClick={() => handleOpenGallery("Concert Gallery", concertGallery, galleryLinks.concert)}
+          onGridImageClick={() => handleOpenGallery("Concert Gallery", concertGallery, galleryLinks.concert)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -531,8 +553,8 @@ export default function Projects() {
           subMainText="Your grand opening is your first impression — we make it unforgettable on film. Ribbon cuts, speeches, guest arrivals, and the energy of a new chapter, all in one story."
           buttonText="View Gallery"
           slides={birthdayGallery}
-          onMainButtonClick={() => openGallery("Birthday Gallery", birthdayGallery)}
-          onGridImageClick={() => openGallery("Birthday Gallery", birthdayGallery)}
+          onMainButtonClick={() => handleOpenGallery("Birthday Gallery", birthdayGallery, galleryLinks.birthday)}
+          onGridImageClick={() => handleOpenGallery("Birthday Gallery", birthdayGallery, galleryLinks.birthday)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -559,8 +581,8 @@ export default function Projects() {
           subMainText="Sophisticated portfolios that capture your unique essence. From lifestyle to high-fashion, we bring professional direction and cinematic lighting to every shoot."
           buttonText="See Portfolio"
           slides={modelingGallery}
-          onMainButtonClick={() => openGallery("Modeling Portfolio", modelingGallery)}
-          onGridImageClick={() => openGallery("Modeling Portfolio", modelingGallery)}
+          onMainButtonClick={() => handleOpenGallery("Modeling Portfolio", modelingGallery, galleryLinks.modeling)}
+          onGridImageClick={() => handleOpenGallery("Modeling Portfolio", modelingGallery, galleryLinks.modeling)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
@@ -587,8 +609,8 @@ export default function Projects() {
           subMainText="Capturing the wonder of childhood. From first milestones to grand birthday celebrations, we turn fleeting moments into lifelong treasures with warmth and creativity."
           buttonText="View Gallery"
           slides={kidsGallery}
-          onMainButtonClick={() => openGallery("Kids Gallery", kidsGallery)}
-          onGridImageClick={() => openGallery("Kids Gallery", kidsGallery)}
+          onMainButtonClick={() => handleOpenGallery("Kids Gallery", kidsGallery, galleryLinks.kids)}
+          onGridImageClick={() => handleOpenGallery("Kids Gallery", kidsGallery, galleryLinks.kids)}
           topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
           mainTextStyle={{
             fontSize: "clamp(3rem, 6vw, 5rem)",
