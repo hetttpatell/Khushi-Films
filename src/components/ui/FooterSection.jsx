@@ -14,12 +14,12 @@ const footerLinks = [
 		],
 	},
 	{
-		label: 'Resources',
+		label: 'Quick Links',
 		links: [
-			{ title: 'Blog', href: '/blog' },
-			{ title: 'Changelog', href: '/changelog' },
-			{ title: 'Brand', href: '/brand' },
-			{ title: 'Help', href: '/help' },
+			{ title: 'Home', href: '/' },
+			{ title: 'About', href: '/about' },
+			{ title: 'Projects', href: '/projects' },
+			{ title: 'Contact', href: '/booking' },
 		],
 	},
 	{
