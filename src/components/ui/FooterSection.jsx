@@ -49,8 +49,13 @@ export function Footer() {
 				style={{ paddingBottom: 'max(4rem, env(safe-area-inset-bottom, 0px) + 6rem)' }}
 			>
 				<div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
-					<AnimatedContainer className="space-y-4">
-						<FrameIcon className="size-8 text-white" />
+					<AnimatedContainer className="space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
+						{/* Custom Khushi Films Logo */}
+						<img
+							src="/logo.jpeg"
+							alt="Khushi Films Logo"
+							className="h-24 md:h-32 w-auto object-contain invert mix-blend-screen opacity-90 hover:opacity-100 transition-opacity"
+						/>
 						<p className="text-neutral-400 mt-8 text-sm md:mt-0 font-sans">
 							© {new Date().getFullYear()} Khushi Films. All rights reserved.
 						</p>
