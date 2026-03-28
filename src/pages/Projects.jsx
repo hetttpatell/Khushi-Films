@@ -366,6 +366,7 @@ export default function Projects() {
   // Add your Dropbox or external links here. If provided, the button will redirect to the link.
   const galleryLinks = {
     wedding: "https://www.dropbox.com/scl/fo/rju5ewi1enp3qzpwaud24/AAWzcu2e3bhwkSL_V_4uTKI?rlkey=zkgqlay6u5xq55hao0g27x4vb&st=gz3hdbay&dl=0", // e.g., "https://www.dropbox.com/scl/fo/..."
+    prewedding: "",
     baby: "https://www.dropbox.com/scl/fo/uff7kbs6ii4qi49bp3bnc/AB7RHwPyhc7Wmo13k-l35z8?rlkey=ev0qde6qhckb358kc0nrnun3n&st=kygr0v3o&dl=0",
     concert: "",
     birthday: "https://www.dropbox.com/scl/fo/i2z7hhjoaxelg3upyfkws/ANqjSnOIQKGZ4ITwqgOd8ME?rlkey=kyt5sg4sr521mn8813yyj3tio&st=y6kmxzo2&dl=0",
@@ -388,6 +389,13 @@ export default function Projects() {
     { type: 'image', url: '/New/compressed_wedding-6.jpg' },
     { type: 'image', url: '/New/compressed_wedding-7.jpg' },
     { type: 'image', url: '/New/compressed_wedding-8.jpg' },
+  ];
+
+  const preWeddingGallery = [
+    { type: 'image', url: '/New/compressed_wedding-2.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-4.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-5.jpg' },
+    { type: 'image', url: '/New/compressed_wedding-1.jpg' },
   ];
 
   const babyGallery = [
@@ -491,7 +499,35 @@ export default function Projects() {
           isRTL={false}
         />
 
-        {/* Project 2 - New Beginnings */}
+        {/* Project 2 - Pre-Wedding */}
+        <DicedHeroSection
+          topText="The Journey Begins"
+          mainText="Pre-Wedding"
+          subMainText="Celebrate your love story before you say 'I do'. We craft personalized, cinematic pre-wedding shoots that showcase your unique bond in breathtaking locations."
+          buttonText="View Gallery"
+          slides={preWeddingGallery}
+          onMainButtonClick={() => handleOpenGallery("Pre-Wedding Gallery", preWeddingGallery, galleryLinks.prewedding)}
+          onGridImageClick={() => handleOpenGallery("Pre-Wedding Gallery", preWeddingGallery, galleryLinks.prewedding)}
+          topTextStyle={{ color: sharedColors.topText, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}
+          mainTextStyle={{
+            fontSize: "clamp(3rem, 6vw, 5rem)",
+            color: "white",
+            fontFamily: "'Playfair Display', serif",
+            fontWeight: 800,
+          }}
+          subMainTextStyle={{ color: sharedColors.subText, fontSize: "1.125rem", opacity: 0.8 }}
+          buttonStyle={{
+            backgroundColor: sharedColors.btnBg,
+            color: sharedColors.btnFg,
+            borderRadius: "2rem",
+            hoverColor: sharedColors.btnHoverBg,
+            hoverForeground: sharedColors.btnHoverFg,
+          }}
+          separatorColor={sharedColors.separator}
+          isRTL={true}
+        />
+
+        {/* Project 3 - New Beginnings */}
         <DicedHeroSection
           topText="Precious Milestones"
           mainText="New Beginnings"
@@ -516,10 +552,10 @@ export default function Projects() {
             hoverForeground: sharedColors.btnHoverFg,
           }}
           separatorColor={sharedColors.separator}
-          isRTL={true}
+          isRTL={false}
         />
 
-        {/* Project 3 - Concerts */}
+        {/* Project 4 - Concerts */}
         <DicedHeroSection
           topText="Live Event Coverage"
           mainText="Concerts"
@@ -544,10 +580,10 @@ export default function Projects() {
             hoverForeground: sharedColors.btnHoverFg,
           }}
           separatorColor={sharedColors.separator}
-          isRTL={false}
+          isRTL={true}
         />
 
-        {/* Project 4 - Birthdays */}
+        {/* Project 5 - Birthdays */}
         <DicedHeroSection
           topText="Brand Launch Moments"
           mainText="Birthdays"
@@ -572,7 +608,7 @@ export default function Projects() {
             hoverForeground: sharedColors.btnHoverFg,
           }}
           separatorColor={sharedColors.separator}
-          isRTL={true}
+          isRTL={false}
         />
 
         {/* Modeling Section */}
@@ -600,7 +636,7 @@ export default function Projects() {
             hoverForeground: sharedColors.btnHoverFg,
           }}
           separatorColor={sharedColors.separator}
-          isRTL={false}
+          isRTL={true}
         />
 
         {/* Kids Photography */}
@@ -628,7 +664,7 @@ export default function Projects() {
             hoverForeground: sharedColors.btnHoverFg,
           }}
           separatorColor={sharedColors.separator}
-          isRTL={true}
+          isRTL={false}
         />
       </div>
 
