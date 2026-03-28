@@ -407,6 +407,7 @@ export default function Projects() {
     { type: 'image', url: '/New/compressed_concert-7.jpg' },
     { type: 'image', url: '/New/compressed_concert-8.jpg' },
 
+    //testing
   ];
 
   const birthdayGallery = [
