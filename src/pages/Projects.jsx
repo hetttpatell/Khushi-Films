@@ -366,12 +366,12 @@ export default function Projects() {
   // Add your Dropbox or external links here. If provided, the button will redirect to the link.
   const galleryLinks = {
     wedding: "https://www.dropbox.com/scl/fo/rju5ewi1enp3qzpwaud24/AAWzcu2e3bhwkSL_V_4uTKI?rlkey=zkgqlay6u5xq55hao0g27x4vb&st=gz3hdbay&dl=0", // e.g., "https://www.dropbox.com/scl/fo/..."
-    prewedding: "",
+    prewedding: "https://www.dropbox.com/scl/fo/2xomk2yc0sd6pds3d4xrz/AHpb8A89VoIbdPPgAWPRDfQ?rlkey=v51zkzcyx3s26tykgc6ur3ixo&st=l21ttndj&dl=0",
     baby: "https://www.dropbox.com/scl/fo/uff7kbs6ii4qi49bp3bnc/AB7RHwPyhc7Wmo13k-l35z8?rlkey=ev0qde6qhckb358kc0nrnun3n&st=kygr0v3o&dl=0",
     concert: "",
     birthday: "https://www.dropbox.com/scl/fo/i2z7hhjoaxelg3upyfkws/ANqjSnOIQKGZ4ITwqgOd8ME?rlkey=kyt5sg4sr521mn8813yyj3tio&st=y6kmxzo2&dl=0",
-    modeling: "https://www.dropbox.com/scl/fo/g46255ht0u4quk6tuyac4/AMfQfZ7K-Ab9A9erjUICPys?rlkey=cvq4o0rwccd98z4ntnsalaxfa&st=emq63tx6&dl=0",
-    kids: ""
+    modeling: "https://www.dropbox.com/scl/fo/g46255ht0u4quk6tuyac4/AMfQfZ7K-Ab9A9erjUICPys?rlkey=cvq4o0rwccd98z4ntnsalaxfa&st=1knw74vu&dl=0",
+    kids: "https://www.dropbox.com/scl/fo/w87325fb7hfwjoviwx6be/AG0Sb75LIsIoQxLvhw3VC-o?rlkey=we3giatkd18q8ey5tffqilbnh&st=d7x0yfg1&dl=0"
   };
 
   const handleOpenGallery = (title, items, link) => {
