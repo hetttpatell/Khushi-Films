@@ -40,23 +40,16 @@ const CINEMA = [0.76, 0, 0.24, 1];
 
 /* ─── Film grain ─────────────────────────────────────────────── */
 function Grain() {
+  // Using a pre-rendered data URI for noise instead of DOM feTurbulence
+  // This avoids expensive per-frame filter recalculations
   return (
-    <>
-      <svg style={{ position: "absolute", width: 0, height: 0 }}>
-        <filter id="ws-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.70"
-            numOctaves="3" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-      </svg>
-      <div style={{
-        position: "absolute", inset: 0,
-        zIndex: 8, pointerEvents: "none",
-        opacity: 0.09,
-        filter: "url(#ws-grain)",
-        mixBlendMode: "overlay",
-      }} />
-    </>
+    <div style={{
+      position: "absolute", inset: 0,
+      zIndex: 8, pointerEvents: "none",
+      opacity: 0.04,
+      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+      transform: "translateZ(0)", // Force GPU
+    }} />
   );
 }
 
@@ -169,6 +162,8 @@ function WelcomeTitle({ phase }) {
           display: "flex", flexDirection: "column",
           alignItems: "center",
           clipPath: "inset(0 0% 0 0%)",
+          willChange: "clip-path",
+          transform: "translateZ(0)",
         }}
       >
         {/* Label */}
@@ -203,7 +198,8 @@ function WelcomeTitle({ phase }) {
               letterSpacing: "-0.02em",
               color: "#fff",
               margin: 0,
-              textShadow: "0 2px 60px rgba(0,0,0,0.9)",
+              textShadow: "0 2px 20px rgba(0,0,0,0.8)",
+              willChange: "transform, opacity",
             }}
           >
             Khushi
@@ -225,6 +221,7 @@ function WelcomeTitle({ phase }) {
               letterSpacing: "-0.02em",
               color: "rgba(255,255,255,0.52)",
               margin: 0,
+              willChange: "transform, opacity",
             }}
           >
             Films
@@ -325,6 +322,7 @@ export default function WelcomeScreen({ onComplete }) {
       <div style={{
         position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none",
         background: "radial-gradient(ellipse 85% 85% at 50% 50%, transparent 30%, rgba(0,0,0,0.6) 100%)",
+        transform: "translateZ(0)",
       }} />
 
       {/* Curtains */}

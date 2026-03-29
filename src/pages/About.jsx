@@ -241,7 +241,7 @@ export default function About() {
                 style={{ zIndex: 20 }}
               >
                 <p className="text-white/40 text-[10px] tracking-[0.3em] uppercase mb-1">Est.</p>
-                <p style={{ fontFamily: "'Playfair Display', serif" }} className="text-white text-3xl font-bold">2015</p>
+                <p style={{ fontFamily: "'Playfair Display', serif" }} className="text-white text-3xl font-bold">2010</p>
                 <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase mt-1">Khushi Films</p>
               </motion.div>
 
@@ -297,7 +297,7 @@ export default function About() {
                 <div className="w-px h-10 bg-white/10" />
                 <div>
                   <p className="text-white/25 text-[10px] tracking-[0.3em] uppercase mb-1">Based In</p>
-                  <p className="text-white/70 text-sm tracking-wide">Ahmedabad, India</p>
+                  <p className="text-white/70 text-sm tracking-wide">United States Of America</p>
                 </div>
               </div>
             </FadeUp>
@@ -387,13 +387,13 @@ export default function About() {
             <Stat number="10+" label="Years of craft" delay={0} />
             <Stat number="300+" label="Films delivered" delay={0.1} />
             <Stat number="3" label="Continents covered" delay={0.2} />
-            <Stat number="12+" label="Industry awards" delay={0.3} />
+            {/* <Stat number="12+" label="Industry awards" delay={0.3} /> */}
           </div>
 
           {/* Horizontal divider with label */}
           <FadeIn delay={0.4} className="mt-24 flex items-center gap-6">
             <div className="flex-1 h-px bg-white/8" />
-            <p className="text-white/20 text-[10px] tracking-[0.4em] uppercase shrink-0">Khushi Films · Est. 2015</p>
+            <p className="text-white/20 text-[10px] tracking-[0.4em] uppercase shrink-0">Khushi Films · Est. 2010</p>
             <div className="flex-1 h-px bg-white/8" />
           </FadeIn>
         </div>
@@ -534,10 +534,10 @@ export default function About() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { award: 'Best Wedding Film', body: 'India Wedding Awards', year: '2022' },
-              { award: 'Top 10 Videographers', body: 'Wedding Sutra Editorial', year: '2021' },
-              { award: 'Featured Vendor', body: 'Vogue India Weddings', year: '2023' },
-              { award: 'Best Cinematic Reel', body: 'South Asia Film Circle', year: '2022' },
+              { award: 'Best Wedding Film', body: 'India Wedding ', year: '' },
+              { award: 'Top 10 Videographers', body: 'Wedding Industry', year: '' },
+              { award: 'Featured Vendor', body: 'Vogue India Weddings', year: '' },
+              { award: 'Best Cinematic Reel', body: 'Asia Film Circle', year: '' },
             ].map((item, i) => (
               <FadeUp key={item.award} delay={i * 0.1}>
                 <div className="flex items-center gap-6 p-8 border border-white/8 hover:border-white/16 transition-colors duration-400 group">
@@ -608,7 +608,7 @@ export default function About() {
 
           <FadeIn delay={0.4} className="mt-20">
             <p className="text-white/20 text-xs tracking-[0.3em] uppercase">
-              hello@khushifilms.com · +91 98765 43210 · Ahmedabad, India
+              khushifilmsus@gmailcom · +1 (917) 446-1882 · United States Of America
             </p>
           </FadeIn>
         </div>
