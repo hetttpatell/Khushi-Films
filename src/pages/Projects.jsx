@@ -392,10 +392,10 @@ export default function Projects() {
   ];
 
   const preWeddingGallery = [
-    { type: 'image', url: '/New/compressed_wedding-2.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-4.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-5.jpg' },
-    { type: 'image', url: '/New/compressed_wedding-1.jpg' },
+    { type: 'image', url: '/New/prewedding-1.jpg' },
+    { type: 'image', url: '/New/prewedding-3.jpg' },
+    { type: 'image', url: '/New/prewedding-8.jpg' },
+    { type: 'image', url: '/New/prewedding-6.jpg' },
   ];
 
   const babyGallery = [
