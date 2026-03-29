@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <div ref={container} className="h-full w-full">
       <ScrollAnimatedVideo
-        videoSrc="https://www.w3schools.com/html/mov_bbb.mp4"
+        videoSrc="/weddingvideo.mp4"
         heroContent={heroJSX}
         overlayContent={overlayJSX}
         showBadges={false}
