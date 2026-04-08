@@ -219,7 +219,7 @@ const DicedHeroSection = ({
             </span>
           </motion.h2>
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -232,7 +232,7 @@ const DicedHeroSection = ({
             }}
           >
             {subMainText}
-          </motion.p>
+          </motion.div>
         </div>
 
         <motion.div
@@ -435,10 +435,10 @@ export default function Projects() {
   ];
 
   const kidsGallery = [
-    { type: 'image', url: '/New/birthday-1.jpg' },
-    { type: 'image', url: '/New/birthday-2.jpg' },
-    { type: 'image', url: '/New/birthday-3.jpg' },
-    { type: 'image', url: '/New/birthday-4.jfif' },
+    { type: 'image', url: '/New/baby-1.jpg' },
+    { type: 'image', url: '/New/baby-2.jpg' },
+    { type: 'image', url: '/New/baby-3.jpg' },
+    { type: 'image', url: '/New/baby-4.jpg' },
   ];
 
   const sharedColors = {
@@ -475,7 +475,27 @@ export default function Projects() {
         <DicedHeroSection
           topText="Cinematic Wedding Films"
           mainText="Weddings"
-          subMainText="From the first look to the last dance — we craft emotional, cinematic wedding films that capture every unscripted moment, tear, and laugh your day has to offer."
+          subMainText={(
+            <>
+              <span style={{ opacity: 0.8 }}>
+                From the first look to the last dance — we craft emotional, cinematic wedding films that capture every unscripted moment, tear, and laugh your day has to offer.
+              </span>
+              <br />
+              <span style={{
+                fontWeight: 800,
+                color: "white",
+                fontSize: "1.1rem",
+                display: 'inline-block',
+                marginTop: '1rem',
+                padding: '0.5rem 1rem',
+                borderLeft: `3px solid ${sharedColors.topText}`,
+                background: 'rgba(255,255,255,0.05)',
+                borderRadius: '0 8px 8px 0'
+              }}>
+                ⭐ Our coverage also includes beautifully captured videos to preserve your memories forever.
+              </span>
+            </>
+          )}
           buttonText="Watch Films"
           slides={weddingGallery}
           onMainButtonClick={() => handleOpenGallery("Wedding Films", weddingGallery, galleryLinks.wedding)}
@@ -487,7 +507,7 @@ export default function Projects() {
             fontFamily: "'Playfair Display', serif",
             fontWeight: 800,
           }}
-          subMainTextStyle={{ color: sharedColors.subText, fontSize: "1.125rem", opacity: 0.8 }}
+          subMainTextStyle={{ color: sharedColors.subText, fontSize: "1.125rem", opacity: 1 }}
           buttonStyle={{
             backgroundColor: sharedColors.btnBg,
             color: sharedColors.btnFg,
