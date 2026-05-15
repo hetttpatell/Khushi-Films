@@ -106,6 +106,44 @@ const ChronicleButton = ({
   );
 };
 
+// --- SeamlessImage Component ---
+const SeamlessImage = ({ src, alt, style, ...props }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <>
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#1f2937',
+          opacity: isLoaded ? 0 : 1,
+          transition: 'opacity 0.5s ease',
+          pointerEvents: 'none'
+        }}
+        className="animate-pulse"
+      />
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setIsLoaded(true)}
+        style={{
+          ...style,
+          opacity: isLoaded ? 1 : 0,
+          filter: isLoaded ? 'blur(0px)' : 'blur(10px)',
+          transition: 'transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease',
+        }}
+        {...props}
+      />
+    </>
+  );
+};
+
 // --- DicedHeroSection Component ---
 
 const DicedHeroSection = ({
@@ -294,9 +332,9 @@ const DicedHeroSection = ({
                 boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
               }}
             >
-              <img
+              <SeamlessImage
                 src={slide.image || slide.url}
-                alt={slide.title}
+                alt={slide.title || "Gallery image"}
                 style={{
                   position: 'absolute',
                   top: 0,
@@ -305,7 +343,6 @@ const DicedHeroSection = ({
                   height: '100%',
                   objectFit: 'cover',
                   cursor: 'pointer',
-                  transition: 'transform 0.5s ease',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.05)';

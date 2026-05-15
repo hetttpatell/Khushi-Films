@@ -3,18 +3,30 @@ import { Timeline } from "./ui/Timeline";
 import { Camera, Award, Star, Film } from "lucide-react";
 
 /* ── Reusable image card ── */
-const StoryImage = ({ src, alt }) => (
-  <img
-    src={src}
-    alt={alt}
-    width={500}
-    height={500}
-    className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full hover:scale-[1.02] transition-transform duration-300"
-    style={{
-      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
-    }}
-  />
-);
+const StoryImage = ({ src, alt }) => {
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
+  return (
+    <div 
+      className="relative rounded-lg overflow-hidden h-20 md:h-44 lg:h-60 w-full"
+      style={{ boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)" }}
+    >
+      <div 
+        className={`absolute inset-0 bg-neutral-800 animate-pulse transition-opacity duration-500 ${isLoaded ? 'opacity-0' : 'opacity-100'}`} 
+      />
+      <img
+        src={src}
+        alt={alt}
+        width={500}
+        height={500}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setIsLoaded(true)}
+        className={`absolute top-0 left-0 object-cover w-full h-full hover:scale-[1.02] transition-all duration-500 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-sm'}`}
+      />
+    </div>
+  );
+};
 
 /* ── Check item ── */
 const CheckItem = ({ text }) => (
