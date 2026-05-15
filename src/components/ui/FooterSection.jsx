@@ -107,13 +107,25 @@ export function Footer() {
 									<ul className="text-neutral-400 mt-4 space-y-2 text-sm font-sans">
 										{section.links.map((link) => (
 											<li key={link.title}>
-												<a
-													href={link.href}
-													className="hover:text-white inline-flex items-center transition-all duration-300"
-												>
-													{link.icon && <link.icon className="me-2 size-4" />}
-													{link.title}
-												</a>
+												{link.href.startsWith('/') ? (
+													<Link
+														to={link.href}
+														className="hover:text-white inline-flex items-center transition-all duration-300"
+													>
+														{link.icon && <link.icon className="me-2 size-4" />}
+														{link.title}
+													</Link>
+												) : (
+													<a
+														href={link.href}
+														target={link.href.startsWith('http') ? "_blank" : undefined}
+														rel={link.href.startsWith('http') ? "noopener noreferrer" : undefined}
+														className="hover:text-white inline-flex items-center transition-all duration-300"
+													>
+														{link.icon && <link.icon className="me-2 size-4" />}
+														{link.title}
+													</a>
+												)}
 											</li>
 										))}
 									</ul>

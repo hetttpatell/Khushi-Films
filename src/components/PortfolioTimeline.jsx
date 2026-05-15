@@ -157,15 +157,15 @@ export function PortfolioTimeline() {
           </p>
           <div className="grid grid-cols-2 gap-4">
             <StoryImage
-              src="/New/birthday-1.jpg"
+              src="/New/compressed_birthday-1.jpg"
               alt="Baby milestone"
             />
             <StoryImage
-              src="/New/birthday-2.jpg"
+              src="/New/compressed_birthday-2.jpg"
               alt="Kid portrait"
             />
             <StoryImage
-              src="/New/birthday-3.jpg"
+              src="/New/compressed_birthday-3.jpg"
               alt="Birthday celebration"
             />
             <StoryImage
