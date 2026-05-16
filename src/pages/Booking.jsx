@@ -5,7 +5,7 @@ import { MapPin, Clock, Mail, Phone } from 'lucide-react';
 import { Footer } from '../components/ui/FooterSection';
 
 /* ─── Your Cal.com slug ──────────────────────────────── */
-const CAL_LINK = 'het-patel-adejx8/bookings';
+const CAL_LINK = 'rakesh-patel-vzybpv/khsushi-films';
 
 /* ─── Grain filter ─────────────────────────────────────── */
 function Grain({ opacity = 0.07 }) {

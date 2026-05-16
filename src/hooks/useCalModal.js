@@ -15,7 +15,7 @@ import { useEffect } from 'react';
  * e.g. "rakesh-patel-khushi/consultation"
  */
 
-const CAL_LINK = 'het-patel-adejx8/bookings'; // 👈 Replace with your Cal.com link
+const CAL_LINK = 'rakesh-patel-vzybpv/khsushi-films'; // 👈 Replace with your Cal.com link
 
 export function useCalModal() {
   useEffect(() => {
